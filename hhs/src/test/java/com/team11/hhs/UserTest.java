@@ -38,7 +38,7 @@ public class UserTest {
         UserRepo mockRepository = Mockito.mock(UserRepo.class);
 
         User idQuote = new User();
-        idQuote.setUserFirstName("Quote phrase here");
+        idQuote.setFirstname("Quote phrase here");
 
         Mockito
                 .when(mockRepository.findById(1L))
@@ -72,16 +72,20 @@ public class UserTest {
         UserRepo mockRepository = Mockito.mock(UserRepo.class);
         UserController quoteController = new UserController(mockRepository);
 
-        User savedQuote = new User();
-        savedQuote.setUserFirstName("Quote phrase here");
-        ArgumentCaptor<User> quoteCaptor = ArgumentCaptor.forClass(User.class);
-        Mockito.when(mockRepository.save(quoteCaptor.capture())).thenReturn(savedQuote);
+        User savedUser = new User();
+        savedUser.setUsername("therealJohnDoe1");
+        savedUser.setPassword("password123");
+        savedUser.setFirstname("John");
+        savedUser.setLastname("Doe");
+        savedUser.setRole("P");
+
+        ArgumentCaptor<User> userArgumentCaptor = ArgumentCaptor.forClass(User.class);
+        Mockito.when(mockRepository.save(userArgumentCaptor.capture())).thenReturn(savedUser);
         // CALL
-        User quote = quoteController.addUser("Quote phrase here");
+        User user = quoteController.addUser("therealJohnDoe1","password123","John","Doe","P");
 
         // ASSERTIONS
-        assertEquals("Quote phrase here", quote.getUserFirstName());
-        // does `quote` have the right content?
+        assertEquals("[therealJohnDoe1, password123, John, Doe, P]", user.printUser());
     }
 
     @Test

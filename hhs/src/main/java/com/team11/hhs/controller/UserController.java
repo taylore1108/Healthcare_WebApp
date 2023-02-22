@@ -35,14 +35,33 @@ public class UserController {
 
     @GetMapping("/user/{userID}" )
     public ResponseEntity<String> readFirstName(@PathVariable("userID") Long id) {
-        return ResponseEntity.of(userRepo.findById(id).map(User::getUserFirstName));
+        return ResponseEntity.of(userRepo.findById(id).map(User::getFirstname));
+    }
+
+    @GetMapping("/user/{userID}" )
+    public ResponseEntity<String> readLastName(@PathVariable("userID") Long id) {
+        return ResponseEntity.of(userRepo.findById(id).map(User::getLastname));
+    }
+
+    @GetMapping("/user/{userID}" )
+    public ResponseEntity<String> readUserName(@PathVariable("userID") Long id) {
+        return ResponseEntity.of(userRepo.findById(id).map(User::getUsername));
+    }
+
+    @GetMapping("/user/{userID}" )
+    public ResponseEntity<String> readRole(@PathVariable("userID") Long id) {
+        return ResponseEntity.of(userRepo.findById(id).map(User::getRole));
     }
 
     @PostMapping("/user")
-    public User addUser(@RequestBody String firstName) {
-        User q = new User();
-        q.setUserFirstName(firstName);
-        return userRepo.save(q);
+    public User addUser(@RequestBody String username, @RequestBody String password, @RequestBody String firstName, @RequestBody String lastName, @RequestBody String role) {
+        User newUser = new User();
+        newUser.setUsername(username);
+        newUser.setPassword(password);
+        newUser.setFirstname(firstName);
+        newUser.setLastname(lastName);
+        newUser.setRole(role);
+        return userRepo.save(newUser);
     }
 
     @RequestMapping(value="/user/{userID}", method=RequestMethod.DELETE)

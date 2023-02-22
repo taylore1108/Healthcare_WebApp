@@ -1,8 +1,11 @@
 package com.team11.hhs.model;
 
 import jakarta.persistence.*;
+
+import java.util.Arrays;
+
 @Entity(name = "user")
-public class User {
+public class User { //do we need a constructor?
     public Long getId() {
         return id;
     }
@@ -12,69 +15,73 @@ public class User {
     @Column(name = "userID")
     private Long id;
 
-    @Column(name = "userUserName")
-    private String userUserName;
+    @Column(name = "username")
+    private String username;
 
-    @Column(name = "userPassword")
-    private String userPassword;
+    @Column(name = "password")
+    private String password;
 
-    @Column(name = "userRole")
-    private String userRole;
+    @Column(name = "role")
+    private String role;
 
-    @Column(name = "userDateEnrolled")
-    private String userDateEnrolled;
+    @Column(name = "dateEnrolled")
+    private String dateEnrolled;
 
     @Column(name = "userFirstName")
-    private String userFirstName;
+    private String firstname;
 
     @Column(name = "userLastName")
-    private String userLastName;
+    private String lastname;
 
-    public String getUserFirstName() {
-        return userFirstName;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setUserFirstName(String userFirstName) {
-        this.userFirstName = userFirstName;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public String getUserUserName() {
-        return userUserName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserUserName(String userUserName) {
-        this.userUserName = userUserName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getUserPassword() {
-        return userPassword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
+    public void setPassword(String userPassword) {
+        this.password = userPassword;
     }
 
-    public String getUserRole() {
-        return userRole;
+    public String getRole() {
+        return role;
     }
 
-    public void setUserRole(String userRole) {
-        this.userRole = userRole;
+    public void setRole(String userRole) {
+        this.role = userRole;
     }
 
-    public String getUserDateEnrolled() {
-        return userDateEnrolled;
+    public String getDateEnrolled() {
+        return dateEnrolled;
     }
 
-    public void setUserDateEnrolled(String userDateEnrolled) {
-        this.userDateEnrolled = userDateEnrolled;
+    public void setDateEnrolled(String dateEnrolled) {
+        this.dateEnrolled = dateEnrolled;
     }
 
-    public String getUserLastName() {
-        return userLastName;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setUserLastName(String userLastName) {
-        this.userLastName = userLastName;
+    public void setLastname(String userLastName) {
+        this.lastname = userLastName;
+    }
+
+    public String printUser(){
+        return Arrays.toString((new String[]{username, password, firstname, lastname, role}));
     }
 }
