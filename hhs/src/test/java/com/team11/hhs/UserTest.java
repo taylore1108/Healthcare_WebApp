@@ -117,14 +117,14 @@ public class UserTest {
         UserController userController = new UserController(mockRepository);
 
         List<User> userList = Collections.emptyList();
-        Mockito.when(mockRepository.getContainingFirstName("John")).thenReturn(userList);
+        Mockito.when(mockRepository.getContainingUsername("therealJohnDoe1")).thenReturn(userList);
 
         // CALL
-        List<User> controllerUsers = userController.getUsers(Optional.of("John"));
+        List<User> controllerUsers = userController.getUsers(Optional.of("therealJohnDoe1"));
 
         // ASSERTIONS
         assertEquals(userList, controllerUsers);
-        Mockito.verify(mockRepository).getContainingFirstName("John");
+        Mockito.verify(mockRepository).getContainingUsername("therealJohnDoe1");
     }
     // did not need to put in phrases, only check if "getContainingQuote" function was called
     // and that the list it returned was the same list that "getQuotes" returned

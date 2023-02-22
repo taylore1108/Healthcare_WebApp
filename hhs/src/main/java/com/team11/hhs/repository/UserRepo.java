@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface UserRepo extends JpaRepository<User, Long> {
-    @Query("SELECT q FROM user q WHERE q.userFirstName LIKE %?1%")
-    List<User> getContainingFirstName(String word);
+    @Query("SELECT u FROM user u WHERE u.username LIKE %?1%")
+    List<User> getContainingUsername(String word);
 }

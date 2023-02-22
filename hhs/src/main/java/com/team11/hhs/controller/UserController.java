@@ -21,7 +21,7 @@ public class UserController {
 
     @GetMapping("/user")
     public List<User> getUsers(@RequestParam("search") Optional<String> searchParam){
-        return searchParam.map( param-> userRepo.getContainingFirstName(param) )
+        return searchParam.map( param-> userRepo.getContainingUsername(param) )
                 .orElse(userRepo.findAll());
     }
 
