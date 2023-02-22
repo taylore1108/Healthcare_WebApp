@@ -13,15 +13,8 @@ import java.util.Optional;
 @RestController
 public class UserController {
     @Autowired
-//    private static final Logger LOG = LoggerFactory.getLogger(TableController.class);
-//    private final String ACCOUNT_SID = System.getenv("TWILIO_ACCOUNT_SID");
-//    private final String AUTH_TOKEN = System.getenv("TWILIO_AUTH_TOKEN");
-//    private final String TWILIO_MESSAGING_SERVICE_SID = System.getenv("TWILIO_MESSAGING_SERVICE_SID");
-//    private final String PHONE_NUMBER = System.getenv("PHONE_NUMBER");
-
     public UserController(UserRepo quoteRepository) {
         this.userRepo = quoteRepository;
-//        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
     }
 
     private UserRepo userRepo;

@@ -21,10 +21,10 @@ public class UserTest {
         UserRepo mockRepository = Mockito.mock(UserRepo.class);
 
         Mockito.when(mockRepository.findById(100000L)).thenReturn(Optional.empty());
-        UserController quoteController = new UserController(mockRepository);
+        UserController userController = new UserController(mockRepository);
 
         // CALL
-        ResponseEntity<String> responseEntity = quoteController.readFirstName(100000L);
+        ResponseEntity<String> responseEntity = userController.readFirstName(100000L);
 
         // ASSERTIONS
         assertEquals(404, responseEntity.getStatusCodeValue());
@@ -37,30 +37,34 @@ public class UserTest {
         // SETUP
         UserRepo mockRepository = Mockito.mock(UserRepo.class);
 
-        User idQuote = new User();
-        idQuote.setFirstname("Quote phrase here");
+        User user = new User();
+        user.setUsername("therealJaneDoe1");
+        user.setPassword("password123");
+        user.setFirstname("Jane");
+        user.setLastname("Doe");
+        user.setRole("P");
 
         Mockito
                 .when(mockRepository.findById(1L))
-                .thenReturn(Optional.of(idQuote));
-        UserController quoteController = new UserController(mockRepository);
+                .thenReturn(Optional.of(user));
+        UserController userController = new UserController(mockRepository);
 
         // CALL
-        ResponseEntity<String> responseEntity = quoteController.readFirstName(1L);
+        ResponseEntity<String> responseEntity = userController.readFirstName(1L);
 
         // ASSERTIONS
         assertEquals(200, responseEntity.getStatusCodeValue());
-        assertEquals("Quote phrase here", responseEntity.getBody() );
+        assertEquals("Jane", responseEntity.getBody() );
     }
 
     @Test
     public void testToDeleteUser(){
         // SETUP
         UserRepo mockRepository = Mockito.mock(UserRepo.class);
-        UserController quoteController = new UserController(mockRepository);
+        UserController userController = new UserController(mockRepository);
 
         // CALL
-        quoteController.deleteUser(1L);
+        userController.deleteUser(1L);
 
         // ASSERTIONS
         Mockito.verify(mockRepository).deleteById(1L);
@@ -92,16 +96,16 @@ public class UserTest {
     public void getUsersWithoutSearchParameterTest(){
         // SETUP
         UserRepo mockRepository = Mockito.mock(UserRepo.class);
-        UserController quoteController = new UserController(mockRepository);
+        UserController userController = new UserController(mockRepository);
 
-        List<User> allQuotes = List.of(new User());
-        Mockito.when(mockRepository.findAll()).thenReturn(allQuotes);
+        List<User> userList = List.of(new User());
+        Mockito.when(mockRepository.findAll()).thenReturn(userList);
 
         // CALL
-        List<User> quotes = quoteController.getUsers(Optional.empty());
+        List<User> controllerUsers = userController.getUsers(Optional.empty());
 
         // ASSERTIONS
-        assertEquals(allQuotes, quotes);      // Optional.of("word") --> fail bc get another quotes list
+        assertEquals(userList, controllerUsers);      // Optional.of("word") --> fail bc get another quotes list
         Mockito.verify(mockRepository).findAll();
         Mockito.verifyNoMoreInteractions(mockRepository);
     }
@@ -110,17 +114,17 @@ public class UserTest {
     public void getContainingUserTest(){
         // SETUP
         UserRepo mockRepository = Mockito.mock(UserRepo.class);
-        UserController quoteController = new UserController(mockRepository);
+        UserController userController = new UserController(mockRepository);
 
-        List<User> containingQuotes = Collections.emptyList();
-        Mockito.when(mockRepository.getContainingFirstName("blah")).thenReturn(containingQuotes);
+        List<User> userList = Collections.emptyList();
+        Mockito.when(mockRepository.getContainingFirstName("John")).thenReturn(userList);
 
         // CALL
-        List<User> quotes = quoteController.getUsers(Optional.of("blah"));
+        List<User> controllerUsers = userController.getUsers(Optional.of("John"));
 
         // ASSERTIONS
-        assertEquals(containingQuotes, quotes);
-        Mockito.verify(mockRepository).getContainingFirstName("blah");
+        assertEquals(userList, controllerUsers);
+        Mockito.verify(mockRepository).getContainingFirstName("John");
     }
     // did not need to put in phrases, only check if "getContainingQuote" function was called
     // and that the list it returned was the same list that "getQuotes" returned
