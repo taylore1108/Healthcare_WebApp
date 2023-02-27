@@ -24,11 +24,11 @@ public class UserTest {
         UserController userController = new UserController(mockRepository);
 
         // CALL
-        ResponseEntity<String> responseEntity = userController.readFirstName(100000L);
+        ResponseEntity<User> responseEntity = userController.readByID(100000L);
 
         // ASSERTIONS
         assertEquals(404, responseEntity.getStatusCodeValue());
-        assertNull( responseEntity.getBody() );
+        assertNull( responseEntity.getBody());
     }
 
     @Test
@@ -50,11 +50,11 @@ public class UserTest {
         UserController userController = new UserController(mockRepository);
 
         // CALL
-        ResponseEntity<String> responseEntity = userController.readFirstName(1L);
+        ResponseEntity<User> responseEntity = userController.readByID(1L);
 
         // ASSERTIONS
         assertEquals(200, responseEntity.getStatusCodeValue());
-        assertEquals("Jane", responseEntity.getBody() );
+        assertEquals("Jane", responseEntity.getBody().getFirstname() );
     }
 
     @Test

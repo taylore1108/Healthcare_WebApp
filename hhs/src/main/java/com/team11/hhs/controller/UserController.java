@@ -13,8 +13,8 @@ import java.util.Optional;
 @RestController
 public class UserController {
     @Autowired
-    public UserController(UserRepo quoteRepository) {
-        this.userRepo = quoteRepository;
+    public UserController(UserRepo userRepo) {
+        this.userRepo = userRepo;
     }
 
     private UserRepo userRepo;
@@ -26,24 +26,27 @@ public class UserController {
     }
 
     @GetMapping("/user/{userID}" )
-    public ResponseEntity<String> readFirstName(@PathVariable("userID") Long id) {
-        return ResponseEntity.of(userRepo.findById(id).map(User::getFirstname));
+    public ResponseEntity<User> readByID(@PathVariable("userID") Long id) {
+        return ResponseEntity.of(userRepo.findById(id));
     }
-
-    @GetMapping("/user/{userID}" )
-    public ResponseEntity<String> readLastName(@PathVariable("userID") Long id) {
-        return ResponseEntity.of(userRepo.findById(id).map(User::getLastname));
-    }
-
-    @GetMapping("/user/{userID}" )
-    public ResponseEntity<String> readUserName(@PathVariable("userID") Long id) {
-        return ResponseEntity.of(userRepo.findById(id).map(User::getUsername));
-    }
-
-    @GetMapping("/user/{userID}" )
-    public ResponseEntity<String> readRole(@PathVariable("userID") Long id) {
-        return ResponseEntity.of(userRepo.findById(id).map(User::getRole));
-    }
+//    public ResponseEntity<String> readFirstName(@PathVariable("userID") Long id) {
+//        return ResponseEntity.of(userRepo.findById(id).map(User::getFirstname));
+//    }
+//
+////    @GetMapping("/user/{userID}" )
+//    public ResponseEntity<String> readLastName(@PathVariable("userID") Long id) {
+//        return ResponseEntity.of(userRepo.findById(id).map(User::getLastname));
+//    }
+//
+////    @GetMapping("/user/{userID}" )
+//    public ResponseEntity<String> readUserName(@PathVariable("userID") Long id) {
+//        return ResponseEntity.of(userRepo.findById(id).map(User::getUsername));
+//    }
+//
+////    @GetMapping("/user/{userID}" )
+//    public ResponseEntity<String> readRole(@PathVariable("userID") Long id) {
+//        return ResponseEntity.of(userRepo.findById(id).map(User::getRole));
+//    }
 
     @PostMapping("/user")
     public User addUser(@RequestBody String username, @RequestBody String password, @RequestBody String firstName, @RequestBody String lastName, @RequestBody String role) {
