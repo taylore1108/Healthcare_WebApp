@@ -1,6 +1,6 @@
 package com.team11.hhs.controller;
 
-//import com.team11.hhs.DTO.UserDTO;
+import com.team11.hhs.DTO.UserDTO;
 import com.team11.hhs.model.User;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,7 +24,7 @@ public class HhsApplicationController {
         @GetMapping(path = "/login")
         public String login(Model model) {
             //This will be used to compare username & password to the database
-            //model.addAttribute("userDTO", new UserDTO());
+            model.addAttribute("userDTO", new UserDTO());
             return "login";
         }
     }
