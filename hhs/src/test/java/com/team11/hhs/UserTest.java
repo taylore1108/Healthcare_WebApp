@@ -54,7 +54,7 @@ public class UserTest {
 
         // ASSERTIONS
         assertEquals(200, responseEntity.getStatusCodeValue());
-        assertEquals("Jane", responseEntity.getBody().getFirstname() );
+        assertEquals("Jane", responseEntity.getBody().getFirstname());
     }
 
     @Test

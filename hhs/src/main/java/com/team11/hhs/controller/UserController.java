@@ -14,7 +14,7 @@ import java.util.Optional;
 public class UserController {
     @Autowired
     public UserController(UserRepo userRepo) {
-        this.userRepo = userRepo;
+        this.userRepo = userRepo ;
     }
 
     private UserRepo userRepo;
@@ -29,24 +29,24 @@ public class UserController {
     public ResponseEntity<User> readByID(@PathVariable("userID") Long id) {
         return ResponseEntity.of(userRepo.findById(id));
     }
-//    public ResponseEntity<String> readFirstName(@PathVariable("userID") Long id) {
-//        return ResponseEntity.of(userRepo.findById(id).map(User::getFirstname));
-//    }
-//
-////    @GetMapping("/user/{userID}" )
-//    public ResponseEntity<String> readLastName(@PathVariable("userID") Long id) {
-//        return ResponseEntity.of(userRepo.findById(id).map(User::getLastname));
-//    }
-//
-////    @GetMapping("/user/{userID}" )
-//    public ResponseEntity<String> readUserName(@PathVariable("userID") Long id) {
-//        return ResponseEntity.of(userRepo.findById(id).map(User::getUsername));
-//    }
-//
-////    @GetMapping("/user/{userID}" )
-//    public ResponseEntity<String> readRole(@PathVariable("userID") Long id) {
-//        return ResponseEntity.of(userRepo.findById(id).map(User::getRole));
-//    }
+    public ResponseEntity<String> readFirstName(@PathVariable("userID") Long id) {
+        return ResponseEntity.of(userRepo.findById(id).map(User::getFirstname));
+    }
+
+//    @GetMapping("/user/{userID}" )
+    public ResponseEntity<String> readLastName(@PathVariable("userID") Long id) {
+        return ResponseEntity.of(userRepo.findById(id).map(User::getLastname));
+    }
+
+//    @GetMapping("/user/{userID}" )
+    public ResponseEntity<String> readUserName(@PathVariable("userID") Long id) {
+        return ResponseEntity.of(userRepo.findById(id).map(User::getUsername));
+    }
+
+//    @GetMapping("/user/{userID}" )
+    public ResponseEntity<String> readRole(@PathVariable("userID") Long id) {
+        return ResponseEntity.of(userRepo.findById(id).map(User::getRole));
+    }
 
     @PostMapping("/user")
     public User addUser(@RequestBody String username, @RequestBody String password, @RequestBody String firstName, @RequestBody String lastName, @RequestBody String role) {
