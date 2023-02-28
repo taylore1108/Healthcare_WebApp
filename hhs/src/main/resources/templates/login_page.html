@@ -1,32 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org" <!--xmlns="http://www.w3.org/1999/html">-->
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/login.css}"/>
     <title>Login</title>
-    <link rel="stylesheet" href="login.css">
-    <script defer src="login.js" type="application/javascript"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style>
+        .flex-container {
+            display:flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            width: 100%;
+            text-align: center;
+            min-height: 400px;
+            background-color: white;
+            align-items: center;
+    </style>
 </head>
 
 <body>
-    <main id="main-holder">
-        <h1 id="login-header">Login for Health Universal</h1>
-
-        <div id="login-error-msg-holder">
-            <p id="login-error-msg">Invalid Username <span id="error-msg-second-line">and/or password</span> </p>
-        </div>
-
-        <form id="login-form">
-            <input type="text" name="username" id="username-field" class="login-form-field" placeholder="Username">
-            <input type="text" name="password" id="password-field" class="login-form-field" placeholder="Password">
-            <input type="submit" value="Login" id="login-form-submit">
-            <input type="button" name="usernameReset" id="forgot-username" class="login-reset-field">
-            <input type="button" name="passwordReset" id="forgot-password" class="login-reset-field">
-
+    <div class="flex-container">
+        <img src="../static/images/healthcare-logo.png" th:src="@{/images/healthcare-logo.png}"/>
+        <h2>Login to Group 2 Healthcare Portal</h2>
+        <p style="font-size: 30px; font-weight: 900">Sign-In</p>
+        <form action="#" th:action="@{/login}" th:object="${userDTO}" method="post"}>
+            <p style="font-size: 20px;padding-top:5px;padding-bottom:0px">Username</p>
+            <input style="height:25px;font-size:12pt;" type="text" th:field="*{userName}"/>
+            <p style="font-size:20px; padding-top:5px;padding-bottom:0px">Password</p>
+            <input style="height:25px;font-size:12pt;" type="password" th:field="*{password}"/>
+            <p><input style="height: 35px; width: 150px;font-size:14pt;font-weight:900" type="submit" value="Login "/></p>
+            <div style="font-weight: 900; color: red;" th:text="${error}" th:if="${error}"></div>
         </form>
-    </main>
+    </div>
 
 </body>
-
 
 </html>

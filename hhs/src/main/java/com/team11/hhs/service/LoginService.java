@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
+@Service
 public class LoginService {
 
     @Autowired
@@ -17,6 +17,6 @@ public class LoginService {
     public Optional<User> getUserID(Long ID) {return userRepository.findById(ID);}
     //public User getUserPassword(User user) {return userRepository.findOne(user);}
     public boolean validateUser(String userID, String password){
-        return userID.equalsIgnoreCase(userID) && password.equalsIgnoreCase(password);
+        return userID.equalsIgnoreCase("user") && password.equalsIgnoreCase("test");
     }
 }
