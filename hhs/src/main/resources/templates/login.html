@@ -21,15 +21,16 @@
 
 <body>
     <div class="flex-container">
-        <img src="../static/images/healthcare-logo.png" style="width:300px;padding-top:10px" th:src="@{/images/healthcare-logo.png}"/>
-        <h2>Login to Group 2 Healthcare Portal</h2>
-        <p style="font-size: 30px; font-weight: 900; padding:0px;">Sign-In</p>
+        <img src="../static/images/healthcare-logo.png" style="width:300px;padding-top:10px;" th:src="@{/images/healthcare-logo.png}"/>
+        <h2>Group 2 Healthcare Portal</h2>
+        <p style="font-size: 30px; font-family:Courier New, Lucida Console, monospace;font-weight: 900; padding:0px;">Sign-In</p>
         <form action="#" th:action="@{/login}" th:object="${userDTO}" method="post"}>
-            <p style="font-size: 20px;padding-top:0px;padding-bottom:0px;">Username</p>
-            <input style="height:25px;font-size:12pt;padding-top:0px;" type="text" th:field="*{userName}"/>
-            <p style="font-size:20px; padding-top:0px;padding-bottom:0px;">Password</p>
-            <input style="height:25px;font-size:12pt;padding-top:0px;" type="password" th:field="*{password}"/>
-            <p><input style="height: 35px; width: 150px;font-size:14pt;font-weight:900" type="submit" value="Login "/></p>
+            <p style="font-size: 20px;font-family:Helvetica, Arial, Sans-serif;padding-top:0px;padding-bottom:0px;">Username</p>
+            <input style="height:25px;font-size:12pt;padding-top:0px;" type="text" placeholder="Enter username" th:field="*{userName}"/>
+            <p style="font-size:20px;font-family:Helvetica, Arial, Sans-serif;padding-top:0px;padding-bottom:0px;">Password</p>
+            <input style="height:25px;font-size:12pt;padding-top:0px" type="password" placeholder="Enter password" th:field="*{password}"/>
+            <p><input style="height:35px;width:150px;font-size:14pt;font-weight:900;border-style:solid;border-radius:3px;
+            font-family:Courier New, Lucida Console, monospace;" type="submit" value="Login "/></p>
             <div style="font-weight: 900; color: red;" th:text="${error}" th:if="${error}"></div>
         </form>
     </div>
