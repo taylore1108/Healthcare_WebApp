@@ -22,8 +22,13 @@ public class UserService {
     }
 
     public User updateUser(Long ID, User newUser) {
-        User quote = userRepository.findById(ID).get();
-        quote.setUserFirstName(newUser.getUserFirstName());
+        User user = userRepository.findById(ID).get();
+        user.setUsername(newUser.getUsername());
+        user.setPassword(newUser.getPassword());
+        user.setFirstname(newUser.getFirstname());
+        user.setLastname(newUser.getLastname());
+        user.setRole(newUser.getRole());
         return userRepository.save(newUser);
+
     }
 }
