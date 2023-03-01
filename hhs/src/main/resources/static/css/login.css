@@ -1,0 +1,22 @@
+.flex-container{
+    display: flex;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.flex-child{
+    flex: 1;
+}
+
+.flex-child:first-child{
+    margin-right: 20px;
+}
+
+.error{
+    font-weight: 900;
+    color: red;
+}
