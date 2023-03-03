@@ -20,6 +20,12 @@
 </head>
 
 <body>
+    <div th:if="${param.error}">
+        Invalid username and password.
+    </div>
+    <div th:if="${param.logout}">
+        You have been logged out.
+    </div>
     <div class="flex-container">
         <img src="../static/images/healthcare-logo.png" style="width:300px;padding-top:10px;"
              th:src="@{/images/healthcare-logo.png}"/>
