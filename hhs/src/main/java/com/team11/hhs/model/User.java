@@ -1,87 +1,47 @@
 package com.team11.hhs.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
-@Entity(name = "user")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity(name = "users")
 public class User { //do we need a constructor?
-    public Long getId() {
-        return id;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "userID")
     private Long id;
 
-    @Column(name = "username")
+    @Column(nullable=false)
     private String username;
 
-    @Column(name = "password")
+    @Column(nullable=false)
     private String password;
 
-    @Column(name = "role")
-    private String role;
-
-    @Column(name = "dateEnrolled")
-    private String dateEnrolled;
-
-    @Column(name = "userFirstName")
+    @Column(nullable=false)
     private String firstname;
 
-    @Column(name = "userLastName")
+    @Column(nullable=false)
     private String lastname;
 
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String userPassword) {
-        this.password = userPassword;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String userRole) {
-        this.role = userRole;
-    }
-
-    public String getDateEnrolled() {
-        return dateEnrolled;
-    }
-
-    public void setDateEnrolled(String dateEnrolled) {
-        this.dateEnrolled = dateEnrolled;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String userLastName) {
-        this.lastname = userLastName;
-    }
+    @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinTable(
+            name="users_roles",
+            joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
+            inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
+    private List<Role> roles = new ArrayList<>();
 
     public String printUser(){
-        return Arrays.toString((new String[]{username, password, firstname, lastname, role}));
+        return Arrays.toString((new String[]{username, password, firstname, lastname}));
     }
 }

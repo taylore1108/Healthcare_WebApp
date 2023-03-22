@@ -29,13 +29,22 @@
             <h2>Group 2 Healthcare Portal</h2>
             <p style="font-size: 30px; font-family:Courier New, Lucida Console, monospace;font-weight: 900;
             margin-bottom:12px;">Sign-In</p>
-            <form action="#" th:action="@{/login}" method="post"}>
-                <p style="font-size: 20px;font-family:Helvetica, Arial, Sans-serif;margin-top:0px;
-                margin-bottom:1px;">Username</p> <input style="height:25px;font-size:12pt;padding-top:0px;" type="text" name="username" placeholder="Enter username"/>
-                <p style="font-size:20px;font-family:Helvetica, Arial, Sans-serif;margin-top:7px;
-                margin-bottom:1px;">Password</p> <input style="height:25px;font-size:12pt;padding-top:0px" type="password" name="password" placeholder="Enter password" />
-                <p> <input style="height:35px;width:150px;font-size:14pt;font-weight:900;border-style:solid;
-                border-radius:3px;font-family:Courier New, Lucida Console, monospace;" type="submit" value="Login"/></p>
+            <form  th:action="@{/login}"  method="post" }>
+                <div class="mb-3">
+                    <label for="username" class="control-label">User Name</label>
+                    <input style="height:25px;font-size:12pt;padding-top:0px;" type="text" id="username" name="username" placeholder="Enter username" />
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="control-label">Password *</label>
+                    <input style="height:25px;font-size:12pt;padding-top:0px" type="password" id="password" name="password" placeholder="Enter password" />
+                </div>
+                <div class="mb-3">
+                    <button type="submit"style="height:35px;width:150px;font-size:14pt;font-weight:900;border-style:solid;
+                border-radius:3px;font-family:Courier New, Lucida Console, monospace;">Login</button>
+                    <span> Not registered?
+                            <a th:href="@{/register}"> Register/SignUp Here</a>
+                    </span>
+                </div>
             </form>
         </div>
     </body>
