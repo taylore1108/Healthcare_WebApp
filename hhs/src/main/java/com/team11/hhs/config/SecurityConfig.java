@@ -36,10 +36,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests((authorize) ->
-                        authorize.requestMatchers("/register/**").permitAll()
-                                .requestMatchers("/index").permitAll()
-                                .requestMatchers("/users").hasRole("ADMIN")
-                ).formLogin(
+                        authorize.requestMatchers("/register/**").permitAll() // everyone can /register
+                                .requestMatchers("/index").permitAll() // everyone can view /index
+                                .requestMatchers("/users").hasRole("ADMIN") // only go to /users if user is an admin
+                ).formLogin( // on successful login go to users
                         form -> form
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
