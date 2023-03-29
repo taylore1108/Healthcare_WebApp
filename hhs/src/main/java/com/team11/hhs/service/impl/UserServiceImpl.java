@@ -6,8 +6,10 @@ import com.team11.hhs.model.User;
 import com.team11.hhs.repository.RoleRepo;
 import com.team11.hhs.repository.UserRepo;
 import com.team11.hhs.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,6 +19,17 @@ public class UserServiceImpl implements UserService {
     private final UserRepo userRepository;
     private final RoleRepo roleRepository;
     private final PasswordEncoder passwordEncoder;
+
+    public UserServiceImpl(){
+        this.userRepository = null;
+        this.roleRepository = null;
+        this.passwordEncoder = null;
+    };
+    public UserServiceImpl(UserRepo userRepository) {
+        this.userRepository = userRepository;
+        this.roleRepository = null;
+        this.passwordEncoder = null;
+    }
     public UserServiceImpl(UserRepo userRepository,
                            RoleRepo roleRepository,
                            PasswordEncoder passwordEncoder) {
@@ -42,6 +55,11 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    public ResponseEntity<User> readByID(@PathVariable("userID") Long id) {
+        return ResponseEntity.of(userRepository.findById(id));
+    }
+
+
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
@@ -55,7 +73,7 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
-    private UserDTO mapToUserDto(User user){
+    public UserDTO mapToUserDto(User user){
         UserDTO userDto = new UserDTO();
         userDto.setFirstName(user.getFirstname());
         userDto.setLastName(user.getLastname());
@@ -68,4 +86,24 @@ public class UserServiceImpl implements UserService {
         role.setName("ROLE_ADMIN");
         return roleRepository.save(role);
     }
+    public void deleteUser(Long ID) {
+        userRepository.deleteById(ID);
+    }
+
+    public void updatePassword(Long ID, String newPassword) {
+        User user = userRepository.findById(ID).get();
+        user.setPassword(newPassword);
+        userRepository.save(user);
+    }
+
+    public User updateUser(Long ID, User newUser) {
+        User user = userRepository.findById(ID).get();
+        user.setUsername(newUser.getUsername());
+        user.setPassword(newUser.getPassword());
+        user.setFirstname(newUser.getFirstname());
+        user.setLastname(newUser.getLastname());
+        return userRepository.save(newUser);
+
+    }
+
 }

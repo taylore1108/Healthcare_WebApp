@@ -10,23 +10,17 @@ import lombok.Setter;
 //@Getter
 //@NoArgsConstructor
 //@AllArgsConstructor
-//@Entity(name = "patient")
-public class Patient { //do we need a constructor?
-//
+//@Entity
+//@Table(name="beds")
+public class Bed {
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    private Long id;
 //
 //    @Column(nullable=false, unique=true)
-//    private Long userid;
-//
-//    @Column(nullable=false)
-//    private String dob;
-//
-//    @Column(nullable=false)
-//    private int age;
-//
-//    @Column(nullable=false)
-//    private String maritalStatus;
+//    private String name;
+
+//    @ManyToMany(mappedBy="beds")
+//    private List<User> users;
 
 }
