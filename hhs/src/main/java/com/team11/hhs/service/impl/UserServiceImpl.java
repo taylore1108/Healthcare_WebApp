@@ -20,16 +20,6 @@ public class UserServiceImpl implements UserService {
     private final RoleRepo roleRepository;
     private final PasswordEncoder passwordEncoder;
 
-//    public UserServiceImpl(){
-//        this.userRepository = null;
-//        this.roleRepository = null;
-//        this.passwordEncoder = null;
-//    };
-//    public UserServiceImpl(UserRepo userRepository) {
-//        this.userRepository = userRepository;
-//        this.roleRepository = null;
-//        this.passwordEncoder = null;
-//    }
     public UserServiceImpl(UserRepo userRepository,
                            RoleRepo roleRepository,
                            PasswordEncoder passwordEncoder) {
@@ -47,7 +37,7 @@ public class UserServiceImpl implements UserService {
         // encrypt the password using spring security
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
-        Role role = roleRepository.findByName("ROLE_ADMIN");
+        Role role = roleRepository.findByName("ROLE_DOCTOR"); //TODO: This needs to be editable in html
         if(role == null){
             role = checkRoleExist();
         }
@@ -86,11 +76,11 @@ public class UserServiceImpl implements UserService {
         role.setName("ROLE_ADMIN");
         return roleRepository.save(role);
     }
-    public void deleteUser(Long ID) {
+    public void deleteUser(@PathVariable Long ID) {
         userRepository.deleteById(ID);
     }
 
-    public void updatePassword(Long ID, String newPassword) {
+    public void updatePassword( @PathVariable Long ID, String newPassword) {
         User user = userRepository.findById(ID).get();
         user.setPassword(newPassword);
         userRepository.save(user);

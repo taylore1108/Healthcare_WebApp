@@ -4,6 +4,8 @@ import com.team11.hhs.model.User;
 import com.team11.hhs.service.UserService;
 import com.team11.hhs.DTO.UserDTO;
 import jakarta.validation.Valid;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +27,11 @@ public class AuthController {
     @GetMapping("index")
     public String home(){
         return "index";
+    }
+
+    @GetMapping("/hello")
+    public String hello() {
+        return "hello";
     }
 
     @GetMapping("/login")
@@ -59,8 +66,13 @@ public class AuthController {
 
     @GetMapping("/users")
     public String listRegisteredUsers(Model model){
-        List<UserDTO> users = userService.findAllUsers();
-        model.addAttribute("users", users);
-        return "users";
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.isAuthenticated() && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("DOCTOR"))) {
+            return "hello";
+        } else {
+            List<UserDTO> users = userService.findAllUsers();
+            model.addAttribute("users", users);
+            return "users";
+        }
     }
 }
