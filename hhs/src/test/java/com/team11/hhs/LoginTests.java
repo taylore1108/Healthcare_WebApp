@@ -1,6 +1,7 @@
 package com.team11.hhs;
 import com.team11.hhs.DTO.UserDTO;
 import com.team11.hhs.model.User;
+import com.team11.hhs.repository.RoleRepo;
 import com.team11.hhs.repository.UserRepo;
 import com.team11.hhs.service.UserService;
 import com.team11.hhs.service.impl.UserServiceImpl;
@@ -9,6 +10,7 @@ import org.mockito.Mockito;
 import org.mockito.ArgumentCaptor;
 import org.springframework.http.ResponseEntity;
 import com.team11.hhs.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -22,6 +24,8 @@ public class LoginTests {
 
         // SETUP
         UserRepo mockRepository = Mockito.mock(UserRepo.class);
+        RoleRepo roleRepo =Mockito.mock( RoleRepo.class);
+        PasswordEncoder passEncode = Mockito.mock( PasswordEncoder.class);
 
         User user = new User();
         user.setUsername("therealJaneDoe1");
@@ -32,7 +36,7 @@ public class LoginTests {
         Mockito
                 .when(mockRepository.findById(1L))
                 .thenReturn(Optional.of(user));
-        UserServiceImpl userController = new UserServiceImpl(mockRepository);
+        UserServiceImpl userController = new UserServiceImpl(mockRepository, roleRepo, passEncode);
 
         // CALL
         ResponseEntity<User> responseEntity = userController.readByID(1L);
@@ -59,7 +63,9 @@ public class LoginTests {
     @Test
     public void invalidIdProduces404() {
         UserRepo mockRepository = Mockito.mock(UserRepo.class);
-        UserServiceImpl userService = new UserServiceImpl(mockRepository);
+        RoleRepo roleRepo =Mockito.mock( RoleRepo.class);
+        PasswordEncoder passEncode = Mockito.mock( PasswordEncoder.class);
+        UserServiceImpl userService = new UserServiceImpl(mockRepository, roleRepo, passEncode);
         Mockito.when(mockRepository.findById(100000L)).thenReturn(Optional.empty());
         ResponseEntity<User> responseEntity = userService.readByID(100000L);
         assertEquals(404, responseEntity.getStatusCodeValue());
@@ -128,8 +134,9 @@ public class LoginTests {
     public void testToDeleteUser(){
         // SETUP
         UserRepo mockRepository = Mockito.mock(UserRepo.class);
-
-        UserServiceImpl userController = new UserServiceImpl(mockRepository);
+        RoleRepo roleRepo =Mockito.mock( RoleRepo.class);
+        PasswordEncoder passEncode = Mockito.mock( PasswordEncoder.class);
+        UserServiceImpl userController = new UserServiceImpl(mockRepository,roleRepo,passEncode);
 
         // CALL
         userController.deleteUser(1L);
