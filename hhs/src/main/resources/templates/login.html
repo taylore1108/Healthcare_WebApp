@@ -44,7 +44,7 @@
             <h2>Group 2 Healthcare Portal</h2>
             <p style="font-size: 30px; font-family:Courier New, Lucida Console, monospace;font-weight: 900;
             margin-bottom:12px;">Sign-In</p>
-            <form  th:action="@{/login}"  method="post" }>
+            <form  th:action="@{/login}"  method="post">
                 <div class="mb-3">
                     <!--<label for="username" class="control-label">User Name</label>-->
                     <input style="height:25px;font-size:12pt;padding:4px;" type="text" id="username" name="username" placeholder="Enter username" />
@@ -56,11 +56,20 @@
                 <div class="mb-3">
                     <button type="submit"style="height:35px;width:150px;padding-top:3px;font-size:14pt;font-weight:900;
                     border-style:solid;border-radius:3px;font-family:Courier New,
-                    Lucida Console, monospace;">Login</button>
+                    Lucida Console, monospace;cursor: pointer;">Login</button>
                 </div>
                 <div class="mb-3">
                     <span> Not registered?
                             <a th:href="@{/register}"> Register/SignUp Here</a>
+                    </span>
+                </div>
+                <div class="mb-3">
+                    <span>
+                        <a th:href="@{/reset}">
+                            <button type="submit"style="height:28.5px;width:75px;font-size:9pt;font-weight:700;
+                            border-style:solid;border-radius:3px;font-family:Courier New,
+                            Lucida Console, monospace;cursor:pointer;background-color:red;">Reset</button>
+                        </a>
                     </span>
                 </div>
             </form>
