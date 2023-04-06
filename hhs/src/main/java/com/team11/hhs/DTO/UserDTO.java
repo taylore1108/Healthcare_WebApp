@@ -22,4 +22,10 @@ public class UserDTO {
     private String username;
     @NotEmpty(message = "Password should not be empty")
     private String password;
+
+
+//    public UserDTO(String userName, String password){
+//        this.setPassword(password);
+//        this.setUserName(userName);
+//    }
 }

@@ -1,4 +1,4 @@
-.flex-container{
+.flex-container {
     display: flex;
 }
 
@@ -14,11 +14,11 @@ img {
     padding: 170px 0;
 }
 
-.flex-child:first-child{
+.flex-child:first-child {
     margin-right: 20px;
 }
 
-.error{
+.error {
     font-weight: 900;
     color: red;
 }
