@@ -54,7 +54,7 @@ public class SecurityConfig {
                         if (authority.getAuthority().equals("ROLE_ADMIN")) {
                             response.sendRedirect("/users"); //"/admin/dashboard"
                         } else if (authority.getAuthority().equals("ROLE_DOCTOR")) {
-                            response.sendRedirect("/hello"); //"/doctor/dashboard"
+                            response.sendRedirect("/doctorHome"); //"/doctor/dashboard"
                         } else if (authority.getAuthority().equals("ROLE_PATIENT")) {
                             response.sendRedirect("/index"); //"/patient/dashboard"
                         }
