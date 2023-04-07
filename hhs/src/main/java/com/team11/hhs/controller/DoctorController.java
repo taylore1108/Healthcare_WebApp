@@ -19,12 +19,12 @@ public class DoctorController {
         return "doctorHome";
     }
 
-    @PostMapping("/getSchedule")
-    public String getDoctorSchedule(Model model){
-        return "redirect:/doctor/schedule";
-    }
+//    @PostMapping("/doctorHome")
+//    public String getDoctorSchedule(Model model){
+//        return "redirect:/doctor/schedule";
+//    }
 
-    @GetMapping("/schedule")
+    @GetMapping("/doctorSchedule")
     public String viewDoctorSchedule(Model model) {
         return "schedule";
     }
