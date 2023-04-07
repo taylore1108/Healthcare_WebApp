@@ -93,4 +93,9 @@ public class AuthController {
             return "redirect:/doctor/home";
         }
     }
+
+    @GetMapping("/schedule")
+    public String getSchedule(Model model){
+        return "schedule";
+    }
 }

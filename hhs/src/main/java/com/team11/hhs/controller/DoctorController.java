@@ -4,6 +4,8 @@ import com.team11.hhs.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -15,5 +17,15 @@ public class DoctorController {
     @GetMapping("/home")
     public String doctorHome(Model model){
         return "doctorHome";
+    }
+
+    @PostMapping("/getSchedule")
+    public String getDoctorSchedule(Model model){
+        return "redirect:/doctor/schedule";
+    }
+
+    @GetMapping("/schedule")
+    public String viewDoctorSchedule(Model model) {
+        return "schedule";
     }
 }
