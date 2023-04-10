@@ -1,10 +1,13 @@
 package com.team11.hhs.service.impl;
 
 import com.team11.hhs.DTO.UserDTO;
+import com.team11.hhs.model.Bed;
 import com.team11.hhs.model.Role;
 import com.team11.hhs.model.User;
+import com.team11.hhs.repository.BedRepo;
 import com.team11.hhs.repository.RoleRepo;
 import com.team11.hhs.repository.UserRepo;
+import com.team11.hhs.service.BedService;
 import com.team11.hhs.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,17 +18,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, BedService {
     private final UserRepo userRepository;
     private final RoleRepo roleRepository;
+    private final BedRepo bedRepository;
     private final PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepo userRepository,
                            RoleRepo roleRepository,
+                           BedRepo bedRepository,
                            PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.bedRepository = bedRepository;
     }
 
     @Override
@@ -36,10 +42,10 @@ public class UserServiceImpl implements UserService {
         user.setUsername(userDto.getUsername());
         // encrypt the password using spring security
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-
-        Role role = roleRepository.findByName("ROLE_DOCTOR"); //TODO: This needs to be editable in html
+        String roleName = userDto.getRole();
+        Role role = roleRepository.findByName(roleName);
         if(role == null){
-            role = checkRoleExist();
+            role = checkRoleExist(roleName);
         }
         user.setRoles(List.of(role));
         userRepository.save(user);
@@ -71,10 +77,16 @@ public class UserServiceImpl implements UserService {
         return userDto;
     }
 
-    private Role checkRoleExist(){
+    private Role checkRoleExist(String roleName){
         Role role = new Role();
-        role.setName("ROLE_ADMIN");
+        role.setName(roleName);
         return roleRepository.save(role);
+    }
+
+    private Bed checkBedExist(String bedName){
+        Bed bed = new Bed();
+        bed.setName(bedName);
+        return bedRepository.save(bed);
     }
     public void deleteUser(@PathVariable Long ID) {
         userRepository.deleteById(ID);
@@ -96,4 +108,18 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public void saveBed(Bed bed) {
+
+    }
+
+    @Override
+    public Bed findByBedName(String bedName) {
+        return null;
+    }
+
+    @Override
+    public List<Bed> findAllBeds() {
+        return null;
+    }
 }
