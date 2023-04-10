@@ -41,7 +41,7 @@ public class SecurityConfig {
                 .requestMatchers("/register/**").permitAll() // everyone can /register
                 .requestMatchers("/index").permitAll() // everyone can view /index
                 .requestMatchers("/users/**").hasRole("ADMIN") // only go to /users if user is an admin
-                .requestMatchers("/doctors/**").hasRole("DOCTOR") // only go to /users if user is an admin
+                .requestMatchers("/doctors/**").hasRole("DOCTOR") // only go to /doctorHome if user is a doctor
                 .requestMatchers("/patients/**").hasRole("PATIENT") // only users with PATIENT role can access /patients/**
                 .and()
                 .formLogin() // on successful login go to users
@@ -54,7 +54,7 @@ public class SecurityConfig {
                         if (authority.getAuthority().equals("ROLE_ADMIN")) {
                             response.sendRedirect("/users"); //"/admin/dashboard"
                         } else if (authority.getAuthority().equals("ROLE_DOCTOR")) {
-                            response.sendRedirect("/hello"); //"/doctor/dashboard"
+                            response.sendRedirect("/doctorHome"); //"/doctor/dashboard"
                         } else if (authority.getAuthority().equals("ROLE_PATIENT")) {
                             response.sendRedirect("/index"); //"/patient/dashboard"
                         }

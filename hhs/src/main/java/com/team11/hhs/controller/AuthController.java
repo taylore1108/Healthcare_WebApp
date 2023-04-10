@@ -39,6 +39,12 @@ public class AuthController {
         return "login";
     }
 
+    // Default always lands on index page
+    @GetMapping(path = "/")
+    public String index() {
+        return "redirect:/index";
+    }
+
     // handler method to handle user registration request
     @GetMapping("register")
     public String showRegistrationForm(Model model){
@@ -74,5 +80,22 @@ public class AuthController {
             model.addAttribute("users", users);
             return "users";
         }
+    }
+
+    @GetMapping("/doctorHome")
+    public String checkDoctorLogin(Model model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.isAuthenticated() && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("DOCTOR"))) {
+            return "redirect:/doctor/home";
+        } else {
+            List<UserDTO> users = userService.findAllUsers();
+            model.addAttribute("users", users);
+            return "redirect:/doctor/home";
+        }
+    }
+
+    @GetMapping("/schedule")
+    public String getSchedule(Model model){
+        return "schedule";
     }
 }
