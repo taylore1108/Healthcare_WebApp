@@ -38,6 +38,7 @@ public class SecurityConfig {
 
         http.csrf().disable()
                 .authorizeRequests()
+                .requestMatchers("/reset/**").permitAll()
                 .requestMatchers("/register/**").permitAll() // everyone can /register
                 .requestMatchers("/index").permitAll() // everyone can view /index
                 .requestMatchers("/users/**").hasRole("ADMIN") // only go to /users if user is an admin

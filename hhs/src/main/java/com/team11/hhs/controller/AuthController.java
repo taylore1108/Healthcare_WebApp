@@ -98,4 +98,26 @@ public class AuthController {
     public String getSchedule(Model model){
         return "schedule";
     }
+
+    @GetMapping("/reset")
+    public String showResetPassword(Model model){
+        return "reset";
+    }
+
+    @PostMapping("/reset/password")
+    public String resetPassword(@Valid @ModelAttribute("user") UserDTO user,
+                               BindingResult result,
+                               Model model){
+        User existing = userService.findByUsername(user.getUsername());
+        if (existing != null) {
+            existing.setPassword(user.getPassword());
+//            result.rejectValue("username", null, "There is already an account registered with that username");
+        }
+        if (result.hasErrors()) {
+            model.addAttribute("user", user);
+            return "register";
+        }
+        userService.saveUser(user);
+        return "redirect:/login";
+    }
 }
