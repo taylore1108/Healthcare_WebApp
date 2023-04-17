@@ -12,8 +12,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name="beds")
+@Entity(name="beds")
 public class Bed {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +21,7 @@ public class Bed {
     @Column(nullable=false, unique=true)
     private String name;
 
-    @ManyToMany(mappedBy="beds")
-    private List<User> users;
+    @Column(unique=true)
+    private String PatientID;
 
 }
