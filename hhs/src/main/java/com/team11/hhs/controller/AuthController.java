@@ -4,6 +4,7 @@ import com.team11.hhs.model.User;
 import com.team11.hhs.service.UserService;
 import com.team11.hhs.DTO.UserDTO;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Null;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -101,23 +102,34 @@ public class AuthController {
 
     @GetMapping("/reset")
     public String showResetPassword(Model model){
+        UserDTO user = new UserDTO();
+        model.addAttribute("user", user);
         return "reset";
     }
 
+
     @PostMapping("/reset/password")
     public String resetPassword(@Valid @ModelAttribute("user") UserDTO user,
-                               BindingResult result,
-                               Model model){
+                                BindingResult result,
+                                Model model){
         User existing = userService.findByUsername(user.getUsername());
-        if (existing != null) {
-            existing.setPassword(user.getPassword());
-//            result.rejectValue("username", null, "There is already an account registered with that username");
+        if (existing == null){
+            result.rejectValue("username", null, "There is no account registered with that username");
+            model.addAttribute("user", user);
+            return "reset";
         }
+        if(existing.getPassword().equals(user.getPassword())){
+            result.rejectValue("password", null, "New password cannot be the same as the old password");
+        }
+        if(!user.getPassword().equals(user.getPassword2())){
+            result.rejectValue("password2", null, "Passwords do not match");
+        }
+
         if (result.hasErrors()) {
             model.addAttribute("user", user);
-            return "register";
+            return "reset";
         }
-        userService.saveUser(user);
-        return "redirect:/login";
+        existing.setPassword(user.getPassword());
+        return "reset?success";
     }
 }

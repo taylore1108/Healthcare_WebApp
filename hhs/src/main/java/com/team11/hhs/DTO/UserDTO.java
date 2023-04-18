@@ -22,6 +22,9 @@ public class UserDTO {
     @NotEmpty(message = "Password should not be empty")
     private String password;
 
+    @NotEmpty(message = "Password should not be empty")
+    private String password2;
+
     //TODO make role variable here but with Patient defualt
     private String role = "ROLE_PATIENT";
 
