@@ -104,6 +104,12 @@ public class AuthController {
         return "reset";
     }
 
+    @GetMapping("/reset/redirect")
+    public String moveToResetPassword(Model model){
+        return "redirect:/reset";
+    }
+
+
     @PostMapping("/reset/password")
     public String resetPassword(@Valid @ModelAttribute("user") UserDTO user,
                                BindingResult result,
@@ -115,9 +121,9 @@ public class AuthController {
         }
         if (result.hasErrors()) {
             model.addAttribute("user", user);
-            return "register";
+            return "reset";
         }
-        userService.saveUser(user);
-        return "redirect:/login";
+//        userService.saveUser(user);
+        return "redirect:/reset?success";
     }
 }

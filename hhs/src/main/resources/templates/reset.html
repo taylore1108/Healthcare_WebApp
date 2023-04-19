@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org">
     <head>
         <!--<link rel="stylesheet" th:href="@{/css/login.css}"/>-->
         <title>Password Reset</title>
@@ -21,33 +21,51 @@
     </head>
 
     <body>
-        <div th:if="${param.error}">
-            Invalid username and password.
-        </div>
-        <div th:if="${param.logout}">
-            You have been logged out.
-        </div>
+    <div th:if="${param.success}">
+        <div class="alert alert-info">You've successfully registered
+            to our app!</div>
+    </div>
         <div class="flex-container">
             <h2>Group 2 Healthcare Portal</h2>
             <p style="font-size: 30px;color: crimson;font-family:Courier New, Lucida Console, monospace;font-weight: 900;
             margin-bottom:12px;">Reset Password</p>
-            <form action="#" th:action="@{/reset/password}" th:object="${userDTO}" method="post"}>
-                <p style="font-size: 20px;font-family:Helvetica, Arial, Sans-serif;margin-top:0px;
-                margin-bottom:1px;">Username</p>
-                <input style="height:25px;font-size:12pt;padding-top:0px;" type="text"
-                       placeholder="Enter username" th:field="*{userName}"/>
-                <p style="font-size:20px;font-family:Helvetica, Arial, Sans-serif;margin-top:7px;
-                margin-bottom:1px;">Password</p>
-                <input style="height:25px;font-size:12pt;padding-top:0px;" type="password"
-                       placeholder="Enter password" th:field="*{password}"/>
-                <!--<p style="font-size:20px;font-family:Helvetica, Arial, Sans-serif;margin-top:7px;
-                margin-bottom:1px;">Re-enter Password</p>-->
-                <p><input style="height:25px;font-size:12pt;" type="password"
-                        placeholder="Re-enter password" th:field="*{password}"/></p>
-                <p><input style="height:35px;width:150px;font-size:14pt;font-weight:900;border-style:solid;
-                border-radius:3px;font-family:Courier New, Lucida Console, monospace;color: crimson;" type="submit" value="Reset"/></p>
+            <form method="post" th:action="@{/reset/password}">
+                <div class="form-group mb-3">
+                    <label class="form-label">User Name</label>
+                    <input class="form-control"
+                           id="username"
+                           name="username"
+                           placeholder="Enter Username"
+                           type="text"
+                    />
+                </div>
+                <div class="form-group mb-3">
+                    <label class="form-label">Password</label>
+                    <input class="form-control"
+                           id="password"
+                           name="password"
+                           placeholder="Enter New Password"
+                           type="password"
+                    />
+                </div>
+                <div class="form-group mb-3">
+                    <label class="form-label">Password</label>
+                    <input class="form-control"
+                           id="password2"
+                           name="password2"
+                           placeholder="Re-Enter New Password"
+                           type="password"
+                    />
+                </div>
                 <div style="font-family:Courier New, Lucida Console, monospace;font-weight:900;color:crimson;"
                      th:text="${error}" th:if="${error}"></div>
+                <div class="form-group mb-3">
+                    <button class="btn btn-primary" type="submit">Change Passsword</button>
+                </div>
+                <div class="form-group mb-3">
+                    <span>Remembered Password? <a href="/" th:href="@{/login}">Login
+                             here</a></span>
+                </div>
             </form>
             <img src="../static/images/healthcare-logo.png" style="width:300px;padding-top:10px;"
                  th:src="@{/images/healthcare-logo.png}"/>
