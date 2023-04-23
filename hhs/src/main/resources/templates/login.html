@@ -12,7 +12,7 @@
                 width: 100%;
                 height: 100%;
                 text-align: center;
-                min-height: 800px;
+                min-height: 50px;
                 background-color: white;
                 align-items: center;}
         </style>
@@ -63,15 +63,16 @@
                             <a th:href="@{/register}"> Register/SignUp Here</a>
                     </span>
                 </div>
-                <div class="mb-3">
-                    <span>
-                        <a th:href="@{/reset}">
-                            <button type="submit"style="height:28.5px;width:75px;font-size:9pt;font-weight:700;
-                            border-style:solid;border-radius:3px;font-family:Courier New,
-                            Lucida Console, monospace;cursor:pointer;background-color:red;">Reset</button></a>
-                    </span>
-                </div>
             </form>
+            <div class="mb-3">
+                    <span>
+                        <a th:href="@{/reset/redirect}">
+                            <button class="flex-container" style="height:28.5px;width:75px;font-size:9pt;font-weight:700;
+                            border-style:solid;border-radius:3px;font-family:Courier New,
+                            Lucida Console, monospace;cursor:pointer;background-color:red;">Reset</button>
+                        </a>
+                    </span>
+            </div>
         </div>
     </body>
 </html>
