@@ -10,8 +10,8 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name="beds")
-public class Bed {
+@Entity(name="bedsDTO")
+public class BedDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,7 +19,7 @@ public class Bed {
     //todo add error statement
     @Column(nullable=false, unique=true)
     private String name;
-    @Column(unique=true)
-    private Long PatientID;
 
+    @Column(nullable=false, unique=true)
+    private String username;
 }

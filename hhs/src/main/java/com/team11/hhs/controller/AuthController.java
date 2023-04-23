@@ -1,6 +1,9 @@
 package com.team11.hhs.controller;
 
+import com.team11.hhs.model.Bed;
+import com.team11.hhs.model.BedDTO;
 import com.team11.hhs.model.User;
+import com.team11.hhs.service.BedService;
 import com.team11.hhs.service.UserService;
 import com.team11.hhs.DTO.UserDTO;
 import jakarta.validation.Valid;
@@ -20,9 +23,11 @@ import java.util.List;
 public class AuthController {
 
     private UserService userService;
+    private BedService bedService;
 
-    public AuthController(UserService userService) {
+    public AuthController(UserService userService, BedService bedService){
         this.userService = userService;
+        this.bedService = bedService;
     }
 
     @GetMapping("index")
@@ -136,5 +141,47 @@ public class AuthController {
         }
 //        userService.saveUser(user);
         return "redirect:/reset?success";
+    }
+
+    @GetMapping("bed")
+    public String showBedForm(Model model){
+        Bed bed = new Bed();
+        model.addAttribute("bed", bed);
+        List<Bed> beds = bedService.findAllBeds();
+        model.addAttribute("beds", beds);
+        return "bed";
+    }
+
+    @PostMapping("/bed/save")
+    public String addBed(@Valid @ModelAttribute("bed") Bed bed,
+                               BindingResult result,
+                               Model model){
+        Bed existing = bedService.findByBedName(bed.getName());
+        if (existing != null) {
+            result.rejectValue("name", null, "There is already an bed registered with that name");
+        }
+        if (result.hasErrors()) {
+            model.addAttribute("bed", bed);
+            return "bed";
+        }
+        bedService.saveBed(bed);
+        return "redirect:/bed?success";
+    }
+    @PostMapping("/bed/update")
+    public String addBed(@Valid @ModelAttribute("bedDTO") BedDTO bed,
+                         BindingResult result,
+                         Model model){
+        Bed existing = bedService.findByBedName(bed.getName());
+        if (existing == null) {
+            result.rejectValue("name", null, "There is not a bed registered with that name");
+        }
+        if (result.hasErrors()) {
+            model.addAttribute("bedDTO", bed);
+            return "bed";
+        }
+
+        bedService.updateBed(bed);
+
+        return "redirect:/bed?success";
     }
 }
