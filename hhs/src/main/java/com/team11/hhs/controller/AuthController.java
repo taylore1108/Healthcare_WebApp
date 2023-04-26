@@ -1,13 +1,12 @@
 package com.team11.hhs.controller;
 
 import com.team11.hhs.model.Bed;
-import com.team11.hhs.model.BedDTO;
+import com.team11.hhs.DTO.BedDTO;
 import com.team11.hhs.model.User;
 import com.team11.hhs.service.BedService;
 import com.team11.hhs.service.UserService;
 import com.team11.hhs.DTO.UserDTO;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Null;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -146,14 +145,15 @@ public class AuthController {
     @GetMapping("bed")
     public String showBedForm(Model model){
         Bed bed = new Bed();
-        model.addAttribute("bed", bed);
+        model.addAttribute("bedSave", bed);
+        model.addAttribute("bedDelete", bed);
         List<Bed> beds = bedService.findAllBeds();
         model.addAttribute("beds", beds);
         return "bed";
     }
 
     @PostMapping("/bed/save")
-    public String addBed(@Valid @ModelAttribute("bed") Bed bed,
+    public String addBed(@Valid @ModelAttribute("bedSave") Bed bed,
                                BindingResult result,
                                Model model){
         Bed existing = bedService.findByBedName(bed.getName());
@@ -161,14 +161,40 @@ public class AuthController {
             result.rejectValue("name", null, "There is already an bed registered with that name");
         }
         if (result.hasErrors()) {
-            model.addAttribute("bed", bed);
+            model.addAttribute("bedSave", bed);
             return "bed";
         }
         bedService.saveBed(bed);
-        return "redirect:/bed?success";
+        return "redirect:/bed?successSave";
     }
-    @PostMapping("/bed/update")
-    public String addBed(@Valid @ModelAttribute("bedDTO") BedDTO bed,
+
+    @PostMapping("/bed/delete")
+    public String deleteBed(@Valid @ModelAttribute("bedDelete") Bed bed,
+                         BindingResult result,
+                         Model model){
+        Bed existing = bedService.findByBedName(bed.getName());
+        if (existing == null) {
+            result.rejectValue("name", null, "There is no bed registered with that name");
+        }
+        if (result.hasErrors()) {
+            model.addAttribute("bedDelete", bed);
+            return "bed";
+        }
+        bedService.deleteBed(bed.getName());
+        return "redirect:/bed?successDelete";
+    }
+
+    @GetMapping("bedPatients")
+    public String showBedPatientsForm(Model model){
+        BedDTO bed = new BedDTO();
+        model.addAttribute("bedDTOAdd", bed);
+        model.addAttribute("bedDTORemove", bed);
+        List<Bed> beds = bedService.findAllBeds();
+        model.addAttribute("beds", beds);
+        return "bedPatients";
+    }
+    @PostMapping("/bedPatients/updateAdd")
+    public String addBed(@Valid @ModelAttribute("bedDTOAdd") BedDTO bed,
                          BindingResult result,
                          Model model){
         Bed existing = bedService.findByBedName(bed.getName());
@@ -176,12 +202,29 @@ public class AuthController {
             result.rejectValue("name", null, "There is not a bed registered with that name");
         }
         if (result.hasErrors()) {
-            model.addAttribute("bedDTO", bed);
-            return "bed";
+            model.addAttribute("bedDTOAdd", bed);
+            return "bedPatients";
         }
 
         bedService.updateBed(bed);
 
-        return "redirect:/bed?success";
+        return "redirect:/bedPatients?successAdd";
+    }
+    @PostMapping("/bedPatients/updateRemove")
+    public String removeBed(@Valid @ModelAttribute("bedDTORemove") BedDTO bed,
+                         BindingResult result,
+                         Model model){
+        Bed existing = bedService.findByBedName(bed.getName());
+        if (existing == null) {
+            result.rejectValue("name", null, "There is not a bed registered with that name");
+        }
+        if (result.hasErrors()) {
+            model.addAttribute("bedDTORemove", bed);
+            return "bedPatients";
+        }
+        bed.setUsername("");
+        bedService.updateBed(bed);
+
+        return "redirect:/bedPatients?successRemove";
     }
 }

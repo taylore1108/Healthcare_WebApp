@@ -2,7 +2,7 @@ package com.team11.hhs.service.impl;
 
 import com.team11.hhs.DTO.UserDTO;
 import com.team11.hhs.model.Bed;
-import com.team11.hhs.model.BedDTO;
+import com.team11.hhs.DTO.BedDTO;
 import com.team11.hhs.model.Role;
 import com.team11.hhs.model.User;
 import com.team11.hhs.repository.BedRepo;
@@ -125,7 +125,8 @@ public class UserServiceImpl implements UserService, BedService {
     }
 
     @Override
-    public void deleteBed(Long id) {
+    public void deleteBed(String name) {
+        Long id = findByBedName(name).getId();
         bedRepository.deleteById(id);
     }
 
@@ -134,8 +135,12 @@ public class UserServiceImpl implements UserService, BedService {
 
         User user= userRepository.findByUsername(bed.getUsername());
         Bed newbed = bedRepository.findByName(bed.getName());
-        newbed.setPatientID(user.getId());
-
+        if(user != null){
+            newbed.setPatientID(user.getId());
+        }
+        else{
+            newbed.setPatientID(null);
+        }
 
         bedRepository.save(newbed);
     }

@@ -1,9 +1,7 @@
 package com.team11.hhs.service;
 
-import com.team11.hhs.DTO.UserDTO;
 import com.team11.hhs.model.Bed;
-import com.team11.hhs.model.BedDTO;
-import com.team11.hhs.model.User;
+import com.team11.hhs.DTO.BedDTO;
 
 import java.util.List;
 
@@ -15,7 +13,7 @@ public interface BedService {
 
     List<Bed> findAllBeds();
 
-    void deleteBed(Long id);
+    void deleteBed(String name);
 
     void updateBed(BedDTO bed);
 

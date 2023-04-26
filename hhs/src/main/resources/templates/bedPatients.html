@@ -28,15 +28,15 @@
                 <h2 class="text-center">Beds</h2>
             </div>
             <div class="card-body">
-                <form method="post" role="form" th:action="@{/bed/save}" th:object="${bedSave}">
-                    <div th:if="${param.successSave}">
-                        <div class="alert alert-info">You've successfully created a new bed!</div>
+                <form method="post" role="form" th:action="@{/bedPatients/updateAdd}" th:object="${bedDTOAdd}">
+                    <div th:if="${param.successAdd}">
+                        <div class="alert alert-info">You've successfully added a Patent to a bed!</div>
                     </div>
                     <div class="form-group mb-3">
                         <label class="form-label">Bed Name</label>
                         <input class="form-control"
-                               id="nameSave"
-                               name="nameSave"
+                               id="nameAdd"
+                               name="nameAdd"
                                placeholder="Enter bed name"
                                th:field="*{name}"
                                type="text"
@@ -45,22 +45,35 @@
                            th:if="${#fields.hasErrors('name')}">
                         </p>
                     </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label">User Name</label>
+                        <input class="form-control"
+                               id="usernameAdd"
+                               name="usernameAdd"
+                               placeholder="Enter User Name"
+                               th:field="*{username}"
+                               type="text"
+                        />
+                        <p th:errors="*{username}" class="text-danger"
+                           th:if="${#fields.hasErrors('username')}">
+                        </p>
+                    </div>
 
                     <div class="form-group mb-3">
-                        <button class="btn btn-primary" type="submit">Create New Bed</button>
+                        <button class="btn btn-primary" type="submit">Assign Patient to Bed</button>
                     </div>
                 </form>
             </div>
             <div class="card-body">
-                <form method="post" role="form" th:action="@{/bed/delete}" th:object="${bedDelete}">
-                    <div th:if="${param.successDelete}">
-                        <div class="alert alert-info">You've successfully deleted a new bed!</div>
+                <form method="post" role="form" th:action="@{/bedPatients/updateRemove}" th:object="${bedDTORemove}">
+                    <div th:if="${param.successRemove}">
+                        <div class="alert alert-info">You've successfully removed a Patent from a bed!</div>
                     </div>
                     <div class="form-group mb-3">
                         <label class="form-label">Bed Name</label>
                         <input class="form-control"
-                               id="nameDelete"
-                               name="nameDelete"
+                               id="nameRemove"
+                               name="nameRemove"
                                placeholder="Enter bed name"
                                th:field="*{name}"
                                type="text"
@@ -69,9 +82,22 @@
                            th:if="${#fields.hasErrors('name')}">
                         </p>
                     </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label">User Name</label>
+                        <input class="form-control"
+                               id="usernameRemove"
+                               name="usernameRemove"
+                               placeholder="Enter User Name"
+                               th:field="*{username}"
+                               type="text"
+                        />
+                        <p th:errors="*{username}" class="text-danger"
+                           th:if="${#fields.hasErrors('username')}">
+                        </p>
+                    </div>
 
                     <div class="form-group mb-3">
-                        <button class="btn btn-primary" type="submit">Delete Existing Bed</button>
+                        <button class="btn btn-primary" type="submit">Remove Patient from Bed</button>
                     </div>
                 </form>
             </div>
