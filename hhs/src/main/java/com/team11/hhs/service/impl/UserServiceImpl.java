@@ -52,15 +52,13 @@ public class UserServiceImpl implements UserService, BedService {
         userRepository.save(user);
     }
 
-    public ResponseEntity<User> readByID(@PathVariable("userID") Long id) {
-        return ResponseEntity.of(userRepository.findById(id));
-    }
 
 
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
+
 
     @Override
     public List<UserDTO> findAllUsers() {
@@ -70,6 +68,14 @@ public class UserServiceImpl implements UserService, BedService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public ResponseEntity<User> findbyId(Long patientID) {
+        return  ResponseEntity.of(userRepository.findById(patientID));
+    }
+
+    public ResponseEntity<User> readByID(@PathVariable("userID") Long id) {
+        return ResponseEntity.of(userRepository.findById(id));
+    }
     public UserDTO mapToUserDto(User user){
         UserDTO userDto = new UserDTO();
         userDto.setFirstName(user.getFirstname());
