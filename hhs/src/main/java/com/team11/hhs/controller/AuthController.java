@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -190,7 +191,18 @@ public class AuthController {
         model.addAttribute("bedDTOAdd", bed);
         model.addAttribute("bedDTORemove", bed);
         List<Bed> beds = bedService.findAllBeds();
-        model.addAttribute("beds", beds);
+        List<BedDTO> bedUserName = new ArrayList<>();
+        for(Bed b:beds){
+            BedDTO newB = new BedDTO();
+            if(b.getPatientID()!= null) {
+                String username = userService.findbyId(b.getPatientID()).getBody().getUsername();
+                newB.setUsername(username);
+            }
+            newB.setId(bed.getId());
+            newB.setName(b.getName());
+            bedUserName.add(newB);
+        }
+        model.addAttribute("beds", bedUserName);
         return "bedPatients";
     }
     @PostMapping("/bedPatients/updateAdd")
