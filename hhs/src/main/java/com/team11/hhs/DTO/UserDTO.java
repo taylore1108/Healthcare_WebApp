@@ -18,11 +18,15 @@ public class UserDTO {
     @NotEmpty
     private String lastName;
     @NotEmpty(message = "Username should not be empty")
-
     private String username;
     @NotEmpty(message = "Password should not be empty")
     private String password;
 
+    @NotEmpty(message = "Password should not be empty")
+    private String password2;
+
+    //TODO make role variable here but with Patient defualt
+    private String role = "ROLE_PATIENT";
 
 //    public UserDTO(String userName, String password){
 //        this.setPassword(password);

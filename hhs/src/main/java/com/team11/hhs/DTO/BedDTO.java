@@ -1,6 +1,7 @@
-package com.team11.hhs.model;
+package com.team11.hhs.DTO;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,16 +11,14 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name="beds")
-public class Bed {
+public class BedDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     //todo add error statement
-    @Column(nullable=false, unique=true)
+//    @NotEmpty(message = "Bed name should not be empty")
     private String name;
-    @Column(unique=true)
-    private Long PatientID;
 
+    private String username;
 }

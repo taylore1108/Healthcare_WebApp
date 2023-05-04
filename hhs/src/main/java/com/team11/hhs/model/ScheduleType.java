@@ -6,27 +6,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "patient")
-public class Patient { //do we need a constructor?
-
+@Entity
+@Table(name="scheduleTypes")
+public class ScheduleType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable=false, unique=true)
-    private Long userid;
+    private String name;
 
     @Column(nullable=false)
-    private String dob;
+    private int lengthInMinutes;
 
     @Column(nullable=false)
-    private int age;
-
-    @Column(nullable=false)
-    private String maritalStatus;
-
+    private float cost;
 }

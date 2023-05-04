@@ -38,6 +38,9 @@ public class SecurityConfig {
 
         http.csrf().disable()
                 .authorizeRequests()
+                .requestMatchers("/bed/**").hasRole("ADMIN")
+                .requestMatchers("/bedPatients/**").hasRole("DOCTOR")
+                .requestMatchers("/reset/**").permitAll()
                 .requestMatchers("/register/**").permitAll() // everyone can /register
                 .requestMatchers("/index").permitAll() // everyone can view /index
                 .requestMatchers("/users/**").hasRole("ADMIN") // only go to /users if user is an admin

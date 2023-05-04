@@ -1,6 +1,9 @@
 package com.team11.hhs.controller;
 
+import com.team11.hhs.model.Bed;
+import com.team11.hhs.DTO.BedDTO;
 import com.team11.hhs.model.User;
+import com.team11.hhs.service.BedService;
 import com.team11.hhs.service.UserService;
 import com.team11.hhs.DTO.UserDTO;
 import jakarta.validation.Valid;
@@ -13,15 +16,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class AuthController {
 
     private UserService userService;
+    private BedService bedService;
 
-    public AuthController(UserService userService) {
+    public AuthController(UserService userService, BedService bedService){
         this.userService = userService;
+        this.bedService = bedService;
     }
 
     @GetMapping("index")
@@ -97,5 +103,140 @@ public class AuthController {
     @GetMapping("/schedule")
     public String getSchedule(Model model){
         return "schedule";
+    }
+
+    @GetMapping("/reset")
+    public String showResetPassword(Model model){
+        UserDTO user = new UserDTO();
+        model.addAttribute("user", user);
+        return "reset";
+    }
+
+    @GetMapping("/reset/redirect")
+    public String moveToResetPassword(Model model){
+        return "redirect:/reset";
+    }
+
+
+    @PostMapping("/reset/password")
+    public String resetPassword(@Valid @ModelAttribute("user") UserDTO user,
+                                BindingResult result,
+                                Model model){
+        User existing = userService.findByUsername(user.getUsername());
+        if (existing == null){
+            result.rejectValue("username", null, "There is no account registered with that username");
+            model.addAttribute("user", user);
+            return "reset";
+        }
+        if(existing.getPassword().equals(user.getPassword())){
+            result.rejectValue("password", null, "New password cannot be the same as the old password");
+        }
+        if(!user.getPassword().equals(user.getPassword2())){
+            result.rejectValue("password2", null, "Passwords do not match");
+        }
+
+        if (result.hasErrors()) {
+            model.addAttribute("user", user);
+            return "reset";
+        }
+//        userService.saveUser(user);
+        return "redirect:/reset?success";
+    }
+
+    @GetMapping("bed")
+    public String showBedForm(Model model){
+        Bed bed = new Bed();
+        model.addAttribute("bedSave", bed);
+        model.addAttribute("bedDelete", bed);
+        List<Bed> beds = bedService.findAllBeds();
+        model.addAttribute("beds", beds);
+        return "bed";
+    }
+
+    @PostMapping("/bed/save")
+    public String addBed(@Valid @ModelAttribute("bedSave") Bed bed,
+                               BindingResult result,
+                               Model model){
+        Bed existing = bedService.findByBedName(bed.getName());
+        if (existing != null) {
+            result.rejectValue("name", null, "There is already an bed registered with that name");
+        }
+        if (result.hasErrors()) {
+            model.addAttribute("bedSave", bed);
+            return "bed";
+        }
+        bedService.saveBed(bed);
+        return "redirect:/bed?successSave";
+    }
+
+    @PostMapping("/bed/delete")
+    public String deleteBed(@Valid @ModelAttribute("bedDelete") Bed bed,
+                         BindingResult result,
+                         Model model){
+        Bed existing = bedService.findByBedName(bed.getName());
+        if (existing == null) {
+            result.rejectValue("name", null, "There is no bed registered with that name");
+        }
+        if (result.hasErrors()) {
+            model.addAttribute("bedDelete", bed);
+            return "bed";
+        }
+        bedService.deleteBed(bed.getName());
+        return "redirect:/bed?successDelete";
+    }
+
+    @GetMapping("bedPatients")
+    public String showBedPatientsForm(Model model){
+        BedDTO bed = new BedDTO();
+        model.addAttribute("bedDTOAdd", bed);
+        model.addAttribute("bedDTORemove", bed);
+        List<Bed> beds = bedService.findAllBeds();
+        List<BedDTO> bedUserName = new ArrayList<>();
+        for(Bed b:beds){
+            BedDTO newB = new BedDTO();
+            if(b.getPatientID()!= null) {
+                String username = userService.findbyId(b.getPatientID()).getBody().getUsername();
+                newB.setUsername(username);
+            }
+            newB.setId(bed.getId());
+            newB.setName(b.getName());
+            bedUserName.add(newB);
+        }
+        model.addAttribute("beds", bedUserName);
+        return "bedPatients";
+    }
+    @PostMapping("/bedPatients/updateAdd")
+    public String addBed(@Valid @ModelAttribute("bedDTOAdd") BedDTO bed,
+                         BindingResult result,
+                         Model model){
+        Bed existing = bedService.findByBedName(bed.getName());
+        if (existing == null) {
+            result.rejectValue("name", null, "There is not a bed registered with that name");
+        }
+        if (result.hasErrors()) {
+            model.addAttribute("bedDTOAdd", bed);
+            return "bedPatients";
+        }
+
+        bedService.updateBed(bed);
+
+        return "redirect:/bedPatients?successAdd";
+    }
+    @PostMapping("/bedPatients/updateRemove")
+    public String removeBed(@Valid @ModelAttribute("bedDTORemove") BedDTO bed,
+                         BindingResult result,
+                         Model model){
+        Bed existing = bedService.findByBedName(bed.getName());
+        if (existing == null) {
+            result.rejectValue("name", null, "There is not a bed registered with that name");
+        }
+        if (result.hasErrors()) {
+            model.addAttribute("bedDTORemove", bed);
+            return "bedPatients";
+        }
+        bed.setUsername("");
+        bedService.updateBed(bed);
+
+        return "redirect:/bedPatients?successRemove";
     }
 }

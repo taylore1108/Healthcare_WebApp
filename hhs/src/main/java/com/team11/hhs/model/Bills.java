@@ -6,27 +6,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "patient")
-public class Patient { //do we need a constructor?
-
+@Entity(name="bills")
+public class Bills {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
+    private Date DateOfAppt;
+
+    @Column
+    private boolean Paid = false;
+
     @Column(nullable=false, unique=true)
-    private Long userid;
+    private Long PatientID;
 
-    @Column(nullable=false)
-    private String dob;
-
-    @Column(nullable=false)
-    private int age;
-
-    @Column(nullable=false)
-    private String maritalStatus;
-
+    @Column(nullable=false, unique=true)
+    private Long ScheduleTypeID;
 }

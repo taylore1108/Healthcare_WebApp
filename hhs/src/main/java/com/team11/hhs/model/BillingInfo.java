@@ -10,23 +10,18 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "patient")
-public class Patient { //do we need a constructor?
-
+@Entity(name="billings")
+public class BillingInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable=false, unique=true)
-    private Long userid;
+    private String cardNumber;
 
-    @Column(nullable=false)
-    private String dob;
+    @Column(unique=true)
+    private String GroupNumber;
 
-    @Column(nullable=false)
-    private int age;
-
-    @Column(nullable=false)
-    private String maritalStatus;
-
+    @Column(nullable=false, unique=true)
+    private Long PatientID;
 }
