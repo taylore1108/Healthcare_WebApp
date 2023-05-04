@@ -100,6 +100,11 @@ public class AuthController {
         }
     }
 
+    @GetMapping("/billing")
+    public String showBilling(Model model){
+        return "billing";
+    }
+
     @GetMapping("/schedule")
     public String getSchedule(Model model){
         return "schedule";
