@@ -50,7 +50,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr th:each="user, row: ${users}" th:id="'row-' + ${row.index}">
+      <tr th:each="user, row: ${users}" th:id="${row.index}">
         <td th:text="${user.getUsername()}"></td>
         <td>
           <select name="procedureName" id="procedureSelect" onchange="updateProcedureCost()">
@@ -61,7 +61,11 @@
           <input type="text" name="procedureCost" id="procedureCost" readonly>
         </td>
         <td>
-          <button type="button" class="btn btn-primary">Charge Patient</button>
+          <form th:action="@{/chargePatient}"  method="post">
+            <input type="hidden" name="username" th:value="${user.getUsername()}" />
+            <input type="hidden" name="inputProcedureName" id="selectedProcedureName" />
+            <button type="submit" class="btn btn-primary">Charge Patient</button>
+          </form>
         </td>
       </tr>
       </tbody>
@@ -73,6 +77,8 @@
     var procedureSelect = document.getElementById("procedureSelect");
     var procedureCostInput = document.getElementById("procedureCost");
     var selectedProcedure = procedureSelect.options[procedureSelect.selectedIndex].value;
+    var passProcedure = document.getElementById("selectedProcedureName");
+    passProcedure.value = selectedProcedure;
 
     // Set the procedureCost value
     if (selectedProcedure === "surgery"){

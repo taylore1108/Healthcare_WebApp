@@ -18,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -254,5 +255,16 @@ public class AuthController {
         bedService.updateBed(bed);
 
         return "redirect:/bedPatients?successRemove";
+    }
+
+    @PostMapping(path = "/chargePatient")
+    public String addBook(@RequestParam("username") String username, @RequestParam("inputProcedureName") String procedureName){
+//        adminService.createBook(inventoryModel);
+        // charge person
+        System.out.println("Charging Patient");
+        System.out.println(username);
+        System.out.println(procedureName);
+
+        return "redirect:/doctor/home";
     }
 }
