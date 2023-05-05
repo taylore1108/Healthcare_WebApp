@@ -5,6 +5,7 @@ import com.team11.hhs.DTO.BedDTO;
 import com.team11.hhs.model.MedicalProcedure;
 import com.team11.hhs.model.User;
 import com.team11.hhs.service.BedService;
+import com.team11.hhs.service.BillService;
 import com.team11.hhs.service.MedicalProcedureService;
 import com.team11.hhs.service.UserService;
 import com.team11.hhs.DTO.UserDTO;
@@ -28,6 +29,9 @@ public class AuthController {
 
     private UserService userService;
     private BedService bedService;
+
+    @Autowired
+    private BillService billService;
 
     @Autowired
     private MedicalProcedureService medicalProcedureService;
@@ -259,12 +263,8 @@ public class AuthController {
 
     @PostMapping(path = "/chargePatient")
     public String addBook(@RequestParam("username") String username, @RequestParam("inputProcedureName") String procedureName){
-//        adminService.createBook(inventoryModel);
-        // charge person
-        System.out.println("Charging Patient");
-        System.out.println(username);
-        System.out.println(procedureName);
-
+        // charge person;
+        billService.createBill(username, procedureName);
         return "redirect:/doctor/home";
     }
 }

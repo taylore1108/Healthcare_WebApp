@@ -19,14 +19,21 @@ public class Bills {
     private Long id;
 
     @Column
-    private Date DateOfAppt;
-
-    @Column
     private boolean Paid = false;
 
     @Column(nullable=false, unique=true)
-    private Long PatientID;
+    private String PatientUsr;
+
+    @Column
+    private String ProcedureName;
 
     @Column(nullable=false, unique=true)
-    private Long ScheduleTypeID;
+    private int billPrice;
+
+    public Bills(boolean paid, String patientUsr, String procedureName, int billPrice) {
+        Paid = paid;
+        PatientUsr = patientUsr;
+        ProcedureName = procedureName;
+        this.billPrice = billPrice;
+    }
 }
