@@ -2,11 +2,14 @@ package com.team11.hhs.controller;
 
 import com.team11.hhs.model.Bed;
 import com.team11.hhs.DTO.BedDTO;
+import com.team11.hhs.model.MedicalProcedure;
 import com.team11.hhs.model.User;
 import com.team11.hhs.service.BedService;
+import com.team11.hhs.service.MedicalProcedureService;
 import com.team11.hhs.service.UserService;
 import com.team11.hhs.DTO.UserDTO;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -24,6 +27,9 @@ public class AuthController {
 
     private UserService userService;
     private BedService bedService;
+
+    @Autowired
+    private MedicalProcedureService medicalProcedureService;
 
     public AuthController(UserService userService, BedService bedService){
         this.userService = userService;
@@ -100,8 +106,13 @@ public class AuthController {
         }
     }
 
-    @GetMapping("/billing")
-    public String showBilling(Model model){
+    @GetMapping(path = "/billing")
+    public String adminInventoryPage(Model model) {
+        model.addAttribute("medicalProcedures", new MedicalProcedure());
+        List<MedicalProcedure> procedures = medicalProcedureService.getAllProcedures();
+        model.addAttribute("procedures", procedures);
+        List<UserDTO> users = userService.findAllUsers();
+        model.addAttribute("users", users);
         return "billing";
     }
 

@@ -36,6 +36,55 @@
   <div class="row">
     <h1 class="text-center"> Billing Page </h1>
   </div>
+  <div class="container">
+    <div class="row">
+      <h1> Bill Patient </h1>
+    </div>
+    <table class="table table-striped table-bordered table-hover">
+      <thead class="table-dark">
+      <tr>
+        <th>Patient Name</th>
+        <th>Procedure Name</th>
+        <th>Procedure Cost</th>
+        <th>Bill Patient?</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="user, row: ${users}" th:id="'row-' + ${row.index}">
+        <td th:text="${user.getUsername()}"></td>
+        <td>
+          <select name="procedureName" id="procedureSelect" onchange="updateProcedureCost()">
+            <option th:each="procedure: ${procedures}" th:value="${procedure.getProcedureName()}" th:text="${procedure.getProcedureName()}"></option>
+          </select>
+        </td>
+        <td>
+          <input type="text" name="procedureCost" id="procedureCost" readonly>
+        </td>
+        <td>
+          <button type="button" class="btn btn-primary">Charge Patient</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
+<script>
+  function updateProcedureCost() {
+    var procedureSelect = document.getElementById("procedureSelect");
+    var procedureCostInput = document.getElementById("procedureCost");
+    var selectedProcedure = procedureSelect.options[procedureSelect.selectedIndex].value;
+
+    // Set the procedureCost value
+    if (selectedProcedure === "surgery"){
+      procedureCostInput.value = "10000";
+    }
+    if (selectedProcedure === "broken bone"){
+      procedureCostInput.value = "5000";
+    }
+    if (selectedProcedure === "administer medication"){
+      procedureCostInput.value = "500";
+    }
+  }
+</script>
 </body>
 </html>
