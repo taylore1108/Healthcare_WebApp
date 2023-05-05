@@ -3,13 +3,10 @@ import com.team11.hhs.DTO.UserDTO;
 import com.team11.hhs.model.User;
 import com.team11.hhs.repository.RoleRepo;
 import com.team11.hhs.repository.UserRepo;
-import com.team11.hhs.service.UserService;
 import com.team11.hhs.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.mockito.ArgumentCaptor;
-import org.springframework.http.ResponseEntity;
-import com.team11.hhs.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
@@ -52,8 +49,8 @@ public class LoginTests {
         UserDTO user = new UserDTO();
         user.setUsername("test");
         user.setPassword("test");
-        user.setFirstName("test");
-        user.setLastName("test");
+        user.setFirstname("test");
+        user.setLastname("test");
         userService.saveUser(user);
         ArgumentCaptor<UserDTO> userCaptor = ArgumentCaptor.forClass(UserDTO.class);
         Mockito.verify(userService).saveUser(userCaptor.capture());

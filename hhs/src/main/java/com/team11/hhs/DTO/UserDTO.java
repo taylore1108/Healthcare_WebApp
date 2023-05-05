@@ -14,15 +14,15 @@ import lombok.Setter;
 public class UserDTO {
     private Long id;
     @NotEmpty
-    private String firstName;
+    private String firstname;
     @NotEmpty
-    private String lastName;
+    private String lastname;
     @NotEmpty(message = "Username should not be empty")
     private String username;
     @NotEmpty(message = "Password should not be empty")
     private String password;
 
-    @NotEmpty(message = "Password should not be empty")
+//    @NotEmpty(message = "Password should not be empty")
     private String password2;
 
     //TODO make role variable here but with Patient defualt

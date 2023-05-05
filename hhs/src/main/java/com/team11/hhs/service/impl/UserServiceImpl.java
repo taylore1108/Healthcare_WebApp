@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,8 +39,8 @@ public class UserServiceImpl implements UserService, BedService {
     @Override
     public void saveUser(UserDTO userDto) {
         User user = new User();
-        user.setFirstname(userDto.getFirstName());
-        user.setLastname(userDto.getLastName());
+        user.setFirstname(userDto.getFirstname());
+        user.setLastname(userDto.getLastname());
         user.setUsername(userDto.getUsername());
         // encrypt the password using spring security
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
@@ -48,11 +49,9 @@ public class UserServiceImpl implements UserService, BedService {
         if(role == null){
             role = checkRoleExist(roleName);
         }
-        user.setRoles(List.of(role));
+        user.setRoles(Arrays.asList(role));
         userRepository.save(user);
     }
-
-
 
     @Override
     public User findByUsername(String username) {
@@ -78,8 +77,8 @@ public class UserServiceImpl implements UserService, BedService {
     }
     public UserDTO mapToUserDto(User user){
         UserDTO userDto = new UserDTO();
-        userDto.setFirstName(user.getFirstname());
-        userDto.setLastName(user.getLastname());
+        userDto.setFirstname(user.getFirstname());
+        userDto.setLastname(user.getLastname());
         userDto.setUsername(user.getUsername());
         return userDto;
     }
@@ -112,7 +111,6 @@ public class UserServiceImpl implements UserService, BedService {
         user.setFirstname(newUser.getFirstname());
         user.setLastname(newUser.getLastname());
         return userRepository.save(newUser);
-
     }
 
     @Override
@@ -150,5 +148,4 @@ public class UserServiceImpl implements UserService, BedService {
 
         bedRepository.save(newbed);
     }
-
 }
