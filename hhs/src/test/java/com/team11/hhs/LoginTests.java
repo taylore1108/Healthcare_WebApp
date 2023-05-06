@@ -7,6 +7,7 @@ import com.team11.hhs.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.mockito.ArgumentCaptor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
@@ -33,14 +34,14 @@ public class LoginTests {
         Mockito
                 .when(mockRepository.findById(1L))
                 .thenReturn(Optional.of(user));
-//        UserServiceImpl userController = new UserServiceImpl(mockRepository, roleRepo, passEncode);
+        UserServiceImpl userController = new UserServiceImpl(mockRepository, roleRepo, passEncode);
 
-        // CALL
-//        ResponseEntity<User> responseEntity = userController.readByID(1L);
+//         CALL
+        ResponseEntity<User> responseEntity = userController.readByID(1L);
 
-//        // ASSERTIONS
-//        assertEquals(200, responseEntity.getStatusCodeValue());
-//        assertEquals("Jane", responseEntity.getBody().getFirstname());
+        // ASSERTIONS
+        assertEquals(200, responseEntity.getStatusCodeValue());
+        assertEquals("Jane", responseEntity.getBody().getFirstname());
     }
 
     @Test
@@ -62,21 +63,20 @@ public class LoginTests {
         UserRepo mockRepository = Mockito.mock(UserRepo.class);
         RoleRepo roleRepo =Mockito.mock( RoleRepo.class);
         PasswordEncoder passEncode = Mockito.mock( PasswordEncoder.class);
-//        UserServiceImpl userService = new UserServiceImpl(mockRepository, roleRepo, passEncode);
+        UserServiceImpl userService = new UserServiceImpl(mockRepository, roleRepo, passEncode);
         Mockito.when(mockRepository.findById(100000L)).thenReturn(Optional.empty());
-//        ResponseEntity<User> responseEntity = userService.readByID(100000L);
-//        assertEquals(404, responseEntity.getStatusCodeValue());
-//        assertNull( responseEntity.getBody());
+        ResponseEntity<User> responseEntity = userService.readByID(100000L);
+        assertEquals(404, responseEntity.getStatusCodeValue());
+        assertNull( responseEntity.getBody());
     }
 
-//    @Test
-//    public void  validIdProduces200() {
-//        UserRepo mockRepository = Mockito.mock(UserRepo.class);
-//        Mockito.when(mockRepository.findById(1L)).thenReturn(Optional.of(new User()));
-//        ResponseEntity<User> responseEntity = new UserServiceImpl(mockRepository).readByID(1L);
-//        assertEquals(200, responseEntity.getStatusCodeValue());
-//        assertEquals("test", responseEntity.getBody().getFirstname());
-//    }
+    @Test
+    public void  validIdProduces200() {
+        UserRepo mockRepository = Mockito.mock(UserRepo.class);
+        Mockito.when(mockRepository.findById(1L)).thenReturn(Optional.of(new User()));
+        ResponseEntity<User> responseEntity = new UserServiceImpl(mockRepository).readByID(1L);
+        assertEquals(200, responseEntity.getStatusCodeValue());
+    }
 
     @Test
     public void testGetAllUsers() {
@@ -100,45 +100,19 @@ public class LoginTests {
         assertEquals(userService.findByUsername("test"), user);
     }
 
-
-//    @Test
-//    public void testChangePassword() {
-//        UserRepo mockRepository = Mockito.mock(UserRepo.class);
-//        UserServiceImpl userService = new UserServiceImpl(mockRepository);
-//
-//        User savedUser = new User();
-//        savedUser.setUsername("therealJohnDoe1");
-//        savedUser.setPassword("password123");
-//        savedUser.setFirstname("John");
-//        savedUser.setLastname("Doe");
-//
-//
-//        User user = new User();
-//        user.setUsername("therealJohnDoe1");
-//        user.setPassword("test2");
-//        user.setFirstname("John");
-//        user.setLastname("Doe");
-//
-//        user = userService.updateUser(user.getId(), savedUser);
-//
-//        ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
-//        Mockito.verify(userService).updatePassword(userCaptor.capture().getId(), "test");
-////        assert(userCaptor.getValue().getUsername().equals("test"));
-//
-//        assertEquals("[therealJohnDoe1, test2, John, Doe]", user.printUser());
-//    }
     @Test
     public void testToDeleteUser(){
         // SETUP
         UserRepo mockRepository = Mockito.mock(UserRepo.class);
         RoleRepo roleRepo =Mockito.mock( RoleRepo.class);
         PasswordEncoder passEncode = Mockito.mock( PasswordEncoder.class);
-//        UserServiceImpl userController = new UserServiceImpl(mockRepository,roleRepo,passEncode);
+        UserServiceImpl userController = new UserServiceImpl(mockRepository,roleRepo,passEncode);
 
         // CALL
-//        userController.deleteUser(1L);
+        userController.deleteUser(1L);
 
         // ASSERTIONS
         Mockito.verify(mockRepository).deleteById(1L);
     }
+
 }

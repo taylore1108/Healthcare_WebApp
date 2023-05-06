@@ -21,10 +21,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService, BedService {
-    private final UserRepo userRepository;
-    private final RoleRepo roleRepository;
-    private final BedRepo bedRepository;
-    private final PasswordEncoder passwordEncoder;
+    private UserRepo userRepository;
+    private RoleRepo roleRepository;
+    private BedRepo bedRepository;
+    private PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepo userRepository,
                            RoleRepo roleRepository,
@@ -36,6 +36,25 @@ public class UserServiceImpl implements UserService, BedService {
         this.bedRepository = bedRepository;
     }
 
+    public UserServiceImpl(UserRepo userRepository,
+                           RoleRepo roleRepository,
+                           PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    public UserServiceImpl(UserRepo userRepository) {
+        this.userRepository = userRepository;
+    }
+
+
+
+    public UserServiceImpl(BedRepo bedRepository) {
+        this.bedRepository = bedRepository;
+    }
+
+
     @Override
     public void saveUser(UserDTO userDto) {
         User user = new User();
@@ -43,7 +62,7 @@ public class UserServiceImpl implements UserService, BedService {
         user.setLastname(userDto.getLastname());
         user.setUsername(userDto.getUsername());
         // encrypt the password using spring security
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         String roleName = userDto.getRole();
         Role role = roleRepository.findByName(roleName);
         if(role == null){
