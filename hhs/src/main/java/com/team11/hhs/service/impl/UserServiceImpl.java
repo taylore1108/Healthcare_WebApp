@@ -10,6 +10,8 @@ import com.team11.hhs.repository.RoleRepo;
 import com.team11.hhs.repository.UserRepo;
 import com.team11.hhs.service.BedService;
 import com.team11.hhs.service.UserService;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,11 +21,20 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor
 @Service
 public class UserServiceImpl implements UserService, BedService {
+
+    @Autowired
     private UserRepo userRepository;
+
+    @Autowired
     private RoleRepo roleRepository;
+
+    @Autowired
     private BedRepo bedRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepo userRepository,

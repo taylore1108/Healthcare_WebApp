@@ -7,6 +7,7 @@ import com.team11.hhs.service.BedService;
 import com.team11.hhs.service.UserService;
 import com.team11.hhs.DTO.UserDTO;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,9 @@ import java.util.List;
 @Controller
 public class AuthController {
 
+    @Autowired
     private UserService userService;
+    @Autowired
     private BedService bedService;
 
     public AuthController(UserService userService, BedService bedService){
