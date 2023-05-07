@@ -269,4 +269,10 @@ public class AuthController {
         billService.createBill(username, procedureName);
         return "redirect:/doctor/home";
     }
+
+    @GetMapping(path = "/showBills")
+    public String showPatientBills(){
+        // Allow Patient to see bills
+        return "patientBills";
+    }
 }
