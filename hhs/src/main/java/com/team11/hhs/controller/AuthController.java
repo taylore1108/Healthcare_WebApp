@@ -262,7 +262,7 @@ public class AuthController {
     }
 
     @PostMapping(path = "/chargePatient")
-    public String addBook(@RequestParam("username") String username, @RequestParam("inputProcedureName") String procedureName){
+    public String addBill(@RequestParam("username") String username, @RequestParam("inputProcedureName") String procedureName){
         // charge person;
         billService.createBill(username, procedureName);
         return "redirect:/doctor/home";
