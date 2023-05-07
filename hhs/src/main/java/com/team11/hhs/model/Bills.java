@@ -21,13 +21,13 @@ public class Bills {
     @Column
     private boolean Paid = false;
 
-    @Column(nullable=false, unique=true)
+    @Column(nullable=false)
     private String PatientUsr;
 
     @Column
     private String ProcedureName;
 
-    @Column(nullable=false, unique=true)
+    @Column(nullable=false)
     private int billPrice;
 
     public Bills(boolean paid, String patientUsr, String procedureName, int billPrice) {
