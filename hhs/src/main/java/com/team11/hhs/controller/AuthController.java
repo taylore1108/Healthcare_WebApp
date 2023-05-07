@@ -2,6 +2,7 @@ package com.team11.hhs.controller;
 
 import com.team11.hhs.model.Bed;
 import com.team11.hhs.DTO.BedDTO;
+import com.team11.hhs.model.Bills;
 import com.team11.hhs.model.MedicalProcedure;
 import com.team11.hhs.model.User;
 import com.team11.hhs.service.BedService;
@@ -9,6 +10,8 @@ import com.team11.hhs.service.BillService;
 import com.team11.hhs.service.MedicalProcedureService;
 import com.team11.hhs.service.UserService;
 import com.team11.hhs.DTO.UserDTO;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -16,10 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +44,9 @@ public class AuthController {
     }
 
     @GetMapping("index")
-    public String home(){
+    public String home(HttpServletResponse response){
+        Cookie cookie = new Cookie("username", "meatball");
+        response.addCookie(cookie);
         return "index";
     }
 
@@ -271,8 +273,13 @@ public class AuthController {
     }
 
     @GetMapping(path = "/showBills")
-    public String showPatientBills(){
+    public String showPatientBills(Model model, @CookieValue(value ="username", required = false) String username){
         // Allow Patient to see bills
+        model.addAttribute("medicalBills", new Bills());
+        List<Bills> bills = billService.getBillsForUser(username);
+//        List<Bills> bills = billService.getAllBills();
+        model.addAttribute("bills", bills);
+
         return "patientBills";
     }
 }
