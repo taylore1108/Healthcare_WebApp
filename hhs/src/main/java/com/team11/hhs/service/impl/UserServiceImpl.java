@@ -10,20 +10,32 @@ import com.team11.hhs.repository.RoleRepo;
 import com.team11.hhs.repository.UserRepo;
 import com.team11.hhs.service.BedService;
 import com.team11.hhs.service.UserService;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor
 @Service
 public class UserServiceImpl implements UserService, BedService {
-    private final UserRepo userRepository;
-    private final RoleRepo roleRepository;
-    private final BedRepo bedRepository;
-    private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserRepo userRepository;
+
+    @Autowired
+    private RoleRepo roleRepository;
+
+    @Autowired
+    private BedRepo bedRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepo userRepository,
                            RoleRepo roleRepository,
@@ -35,24 +47,41 @@ public class UserServiceImpl implements UserService, BedService {
         this.bedRepository = bedRepository;
     }
 
+    public UserServiceImpl(UserRepo userRepository,
+                           RoleRepo roleRepository,
+                           PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    public UserServiceImpl(UserRepo userRepository) {
+        this.userRepository = userRepository;
+    }
+
+
+
+    public UserServiceImpl(BedRepo bedRepository) {
+        this.bedRepository = bedRepository;
+    }
+
+
     @Override
     public void saveUser(UserDTO userDto) {
         User user = new User();
-        user.setFirstname(userDto.getFirstName());
-        user.setLastname(userDto.getLastName());
+        user.setFirstname(userDto.getFirstname());
+        user.setLastname(userDto.getLastname());
         user.setUsername(userDto.getUsername());
         // encrypt the password using spring security
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         String roleName = userDto.getRole();
         Role role = roleRepository.findByName(roleName);
         if(role == null){
             role = checkRoleExist(roleName);
         }
-        user.setRoles(List.of(role));
+        user.setRoles(Arrays.asList(role));
         userRepository.save(user);
     }
-
-
 
     @Override
     public User findByUsername(String username) {
@@ -78,8 +107,8 @@ public class UserServiceImpl implements UserService, BedService {
     }
     public UserDTO mapToUserDto(User user){
         UserDTO userDto = new UserDTO();
-        userDto.setFirstName(user.getFirstname());
-        userDto.setLastName(user.getLastname());
+        userDto.setFirstname(user.getFirstname());
+        userDto.setLastname(user.getLastname());
         userDto.setUsername(user.getUsername());
         return userDto;
     }
@@ -112,7 +141,6 @@ public class UserServiceImpl implements UserService, BedService {
         user.setFirstname(newUser.getFirstname());
         user.setLastname(newUser.getLastname());
         return userRepository.save(newUser);
-
     }
 
     @Override
@@ -150,5 +178,4 @@ public class UserServiceImpl implements UserService, BedService {
 
         bedRepository.save(newbed);
     }
-
 }

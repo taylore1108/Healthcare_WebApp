@@ -27,7 +27,9 @@ import java.util.List;
 @Controller
 public class AuthController {
 
+    @Autowired
     private UserService userService;
+    @Autowired
     private BedService bedService;
 
     @Autowired
@@ -91,7 +93,7 @@ public class AuthController {
     public String listRegisteredUsers(Model model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.isAuthenticated() && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("DOCTOR"))) {
-            return "hello";
+            return "index";
         } else {
             List<UserDTO> users = userService.findAllUsers();
             model.addAttribute("users", users);
