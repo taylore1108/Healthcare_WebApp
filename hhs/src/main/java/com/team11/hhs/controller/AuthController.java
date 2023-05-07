@@ -2,8 +2,11 @@ package com.team11.hhs.controller;
 
 import com.team11.hhs.model.Bed;
 import com.team11.hhs.DTO.BedDTO;
+import com.team11.hhs.model.MedicalProcedure;
 import com.team11.hhs.model.User;
 import com.team11.hhs.service.BedService;
+import com.team11.hhs.service.BillService;
+import com.team11.hhs.service.MedicalProcedureService;
 import com.team11.hhs.service.UserService;
 import com.team11.hhs.DTO.UserDTO;
 import jakarta.validation.Valid;
@@ -16,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +31,12 @@ public class AuthController {
     private UserService userService;
     @Autowired
     private BedService bedService;
+
+    @Autowired
+    private BillService billService;
+
+    @Autowired
+    private MedicalProcedureService medicalProcedureService;
 
     public AuthController(UserService userService, BedService bedService){
         this.userService = userService;
@@ -101,6 +111,16 @@ public class AuthController {
             model.addAttribute("users", users);
             return "redirect:/doctor/home";
         }
+    }
+
+    @GetMapping(path = "/billing")
+    public String adminInventoryPage(Model model) {
+        model.addAttribute("medicalProcedures", new MedicalProcedure());
+        List<MedicalProcedure> procedures = medicalProcedureService.getAllProcedures();
+        model.addAttribute("procedures", procedures);
+        List<UserDTO> users = userService.findAllUsers();
+        model.addAttribute("users", users);
+        return "billing";
     }
 
     @GetMapping("/schedule")
@@ -241,5 +261,12 @@ public class AuthController {
         bedService.updateBed(bed);
 
         return "redirect:/bedPatients?successRemove";
+    }
+
+    @PostMapping(path = "/chargePatient")
+    public String addBill(@RequestParam("username") String username, @RequestParam("inputProcedureName") String procedureName){
+        // charge person;
+        billService.createBill(username, procedureName);
+        return "redirect:/doctor/home";
     }
 }

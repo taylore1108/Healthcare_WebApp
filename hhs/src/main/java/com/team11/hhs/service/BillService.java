@@ -1,22 +1,27 @@
 package com.team11.hhs.service;
 
 import com.team11.hhs.model.Bills;
+import com.team11.hhs.model.MedicalProcedure;
+import com.team11.hhs.repository.BillRepo;
+import com.team11.hhs.repository.MedicalProcedureRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
 
-public interface BillService {
-    void saveBill(Bills bill);
+@Service
+public class BillService {
 
-    Bills findByPatientID(Long id);
-    Bills findByScheduleTypeID(Long id);
+    @Autowired
+    private BillRepo billRepo;
 
-    Bills findByDate(String data);
+    @Autowired
+    private MedicalProcedureRepo medicalProcedureRepo;
 
-    List<Bills> findAllBills();
-    List<Bills> findAllBillsPerPatient(Long id);
-    void deleteBill(String name);
+    public void createBill(String username, String procedureName){
+        MedicalProcedure medicalProcedure = medicalProcedureRepo.findByProcedureName(procedureName);
+        int price = medicalProcedure.getProcedureCost();
+        Bills bill = new Bills(false, username,procedureName, price);
+        billRepo.save(bill);
+    }
 
-    void updateBillPaid(boolean paid);
-
-    void updateBill(Bills newBill);
 }
