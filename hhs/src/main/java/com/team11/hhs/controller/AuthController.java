@@ -263,11 +263,11 @@ public class AuthController {
         return "redirect:/bedPatients?successRemove";
     }
 
-    @PostMapping(path = "/chargePatient")
+    @PostMapping(path = "/billing/chargePatient")
     public String addBill(@RequestParam("username") String username, @RequestParam("inputProcedureName") String procedureName){
         // charge person;
         billService.createBill(username, procedureName);
-        return "doctorHome";
+        return "redirect:/billing?successCharge";
     }
 
     @GetMapping(path = "/showBills")
@@ -281,9 +281,9 @@ public class AuthController {
         return "patientBills";
     }
 
-    @PostMapping(path = "/payBill")
+    @PostMapping(path = "/patientBills/payBill")
     public String payBill(@RequestParam("username") String username, @RequestParam("inputProcedureName") String procedureName){
         // User pays bill
-        return "index";
+        return "redirect:/patientBills?successPay";
     }
 }

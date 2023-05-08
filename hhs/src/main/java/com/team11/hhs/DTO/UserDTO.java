@@ -26,7 +26,7 @@ public class UserDTO {
     private String password2;
 
     //TODO make role variable here but with Patient defualt
-    private String role = "ROLE_PATIENT";
+    private String role = "ROLE_DOCTOR";
 
 //    public UserDTO(String userName, String password){
 //        this.setPassword(password);

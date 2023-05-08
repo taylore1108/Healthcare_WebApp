@@ -63,10 +63,13 @@
           <input type="text" name="procedureCost" id="procedureCost" readonly>
         </td>
         <td>
-          <form th:action="@{/chargePatient}" method="post">
+          <form th:action="@{/billing/chargePatient}" method="post">
             <input type="hidden" name="username" id="selectedUsername" />
             <input type="hidden" name="inputProcedureName" id="selectedProcedureName" />
             <button type="submit" class="btn btn-primary">Charge Patient</button>
+            <div th:if="${param.successCharge}">
+              <div class="alert alert-info">You've successfully billed a patient!</div>
+            </div>
           </form>
         </td>
       </tr>
