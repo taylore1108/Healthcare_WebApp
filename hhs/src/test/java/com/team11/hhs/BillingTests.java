@@ -16,5 +16,14 @@ public class BillingTests {
         billService.createBill(bill.getPatientUsername(), bill.getProcedureName());
         Mockito.verify(billService).createBill(bill.getPatientUsername(), bill.getProcedureName());
     }
-    
+
+    //Test retrieving patient bills
+    @Test
+    public void testGetPatientBills(){
+        BillService billService = Mockito.mock(BillService.class);
+        Bills bill = new Bills(false, "Test", "Test", 0);
+        billService.createBill(bill.getPatientUsername(), bill.getProcedureName());
+        Mockito.verify(billService).createBill(bill.getPatientUsername(), bill.getProcedureName());
+        Mockito.verify(billService).getBillsForUser(bill.getPatientUsername());
+    }
 }
