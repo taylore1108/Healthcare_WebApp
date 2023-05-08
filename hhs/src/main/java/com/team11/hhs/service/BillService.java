@@ -7,6 +7,8 @@ import com.team11.hhs.repository.MedicalProcedureRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class BillService {
@@ -22,6 +24,14 @@ public class BillService {
         int price = medicalProcedure.getProcedureCost();
         Bills bill = new Bills(false, username,procedureName, price);
         billRepo.save(bill);
+    }
+
+    public List<Bills> getAllBills(){
+        return billRepo.findAll();
+    }
+
+    public List<Bills> getBillsForUser(String username) {
+        return billRepo.findByPatientUsername(username);
     }
 
 }

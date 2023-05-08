@@ -42,6 +42,7 @@ public class SecurityConfig {
                 .requestMatchers("/bedPatients/**").hasRole("DOCTOR")
                 .requestMatchers("/reset/**").permitAll()
                 .requestMatchers("/register/**").permitAll() // everyone can /register
+                .requestMatchers("/showBills/**").permitAll() // everyone can pay a bill
                 .requestMatchers("/index").permitAll() // everyone can view /index
                 .requestMatchers("/users/**").hasRole("ADMIN") // only go to /users if user is an admin
                 .requestMatchers("/doctors/**").hasRole("DOCTOR") // only go to /doctorHome if user is a doctor

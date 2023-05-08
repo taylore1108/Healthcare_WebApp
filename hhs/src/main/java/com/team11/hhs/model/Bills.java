@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-
 @Setter
 @Getter
 @NoArgsConstructor
@@ -22,7 +20,7 @@ public class Bills {
     private boolean Paid = false;
 
     @Column(nullable=false)
-    private String PatientUsr;
+    private String patientUsername;
 
     @Column
     private String ProcedureName;
@@ -32,7 +30,7 @@ public class Bills {
 
     public Bills(boolean paid, String patientUsr, String procedureName, int billPrice) {
         Paid = paid;
-        PatientUsr = patientUsr;
+        patientUsername = patientUsr;
         ProcedureName = procedureName;
         this.billPrice = billPrice;
     }
