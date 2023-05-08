@@ -53,10 +53,13 @@
         <td th:text="${bill.getProcedureName()}"></td>
         <td th:text="${bill.getBillPrice()}"></td>
         <td>
-          <form th:action="@{/payBill}" method="post">
+          <form th:action="@{/patientBills/payBill}" method="post">
             <input type="hidden" name="username" id="selectedUsername" />
             <input type="hidden" name="inputProcedureName" id="selectedProcedureName" />
             <button type="submit" class="btn btn-primary">Pay Now</button>
+            <div th:if="${param.successPay}">
+              <div class="alert alert-info">You've successfully paid a bill!</div>
+            </div>
           </form>
         </td>
       </tr>
