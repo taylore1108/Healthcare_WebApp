@@ -286,4 +286,14 @@ public class AuthController {
         // User pays bill
         return "redirect:/patientBills?successPay";
     }
+
+    @GetMapping(path = "/showPatientBed")
+    public String showPatientBed(Model model, @CookieValue(value ="username", required = false) String username){
+        // Allow Patient to see their assigned bed
+        Bed bed = bedService.findByBedName("Bed1");
+        model.addAttribute("assignedBed", bed);
+
+        return "patientViewBed";
+    }
+
 }
