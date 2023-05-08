@@ -45,7 +45,7 @@ public class AuthController {
 
     @GetMapping("index")
     public String home(HttpServletResponse response){
-        Cookie cookie = new Cookie("username", "meatball");
+        Cookie cookie = new Cookie("username", "jpniesman");
         response.addCookie(cookie);
         return "index";
     }
@@ -279,5 +279,11 @@ public class AuthController {
         model.addAttribute("bills", bills);
 
         return "patientBills";
+    }
+
+    @PostMapping(path = "/payBill")
+    public String payBill(@RequestParam("username") String username, @RequestParam("inputProcedureName") String procedureName){
+        // User pays bill
+        return "index";
     }
 }

@@ -64,5 +64,17 @@
     </table>
   </div>
 </div>
+<script>
+  function updateProcedureCost() {
+    var procedureSelect = document.getElementById("procedureSelect");
+    var selectedProcedure = procedureSelect.options[procedureSelect.selectedIndex].value;
+    var passProcedure = document.getElementById("selectedProcedureName");
+    var patientUsernameInput = document.getElementById("patientUsr");
+    var passUsername = document.getElementById("selectedUsername");
+    passUsername.value = patientUsernameInput.value;
+    passProcedure.value = selectedProcedure;
+
+  }
+</script>
 </body>
 </html>
