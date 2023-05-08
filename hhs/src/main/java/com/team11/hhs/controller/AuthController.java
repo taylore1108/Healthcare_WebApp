@@ -94,7 +94,7 @@ public class AuthController {
     @GetMapping("/users")
     public String listRegisteredUsers(Model model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null && auth.isAuthenticated() && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("DOCTOR"))) {
+        if (auth != null && auth.isAuthenticated() && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ADMIN"))) {
             return "index";
         } else {
             List<UserDTO> users = userService.findAllUsers();
@@ -109,9 +109,7 @@ public class AuthController {
         if (auth != null && auth.isAuthenticated() && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("DOCTOR"))) {
             return "redirect:/doctor/home";
         } else {
-            List<UserDTO> users = userService.findAllUsers();
-            model.addAttribute("users", users);
-            return "redirect:/doctor/home";
+            return "doctorHome";
         }
     }
 
@@ -269,7 +267,7 @@ public class AuthController {
     public String addBill(@RequestParam("username") String username, @RequestParam("inputProcedureName") String procedureName){
         // charge person;
         billService.createBill(username, procedureName);
-        return "redirect:/doctor/home";
+        return "doctorHome";
     }
 
     @GetMapping(path = "/showBills")
